@@ -1,0 +1,187 @@
+local({
+  # =========================================================================================
+  # 1. Package Definition and Metadata
+  # =========================================================================================
+  require(rkwarddev)
+  rkwarddev.required("0.08-1")
+
+  plugin_name <- "rk.rnaturalearth"
+  plugin_ver <- "0.0.2"
+
+  package_about <- rk.XML.about(
+    name = plugin_name,
+    author = person(
+      given = "Alfonso",
+      family = "Cano",
+      email = "alfonso.cano@correo.buap.mx",
+      role = c("aut", "cre")
+    ),
+    about = list(
+      desc = "An RKWard wrapper for 'rnaturalearth'. Includes tools to visualize Choropleth maps and extract region names for data cleaning.",
+      version = plugin_ver,
+      date = format(Sys.Date(), "%Y-%m-%d"),
+      url = "https://github.com/AlfCano/rk.rnaturalearth",
+      license = "GPL (>= 3)"
+    )
+  )
+
+  # =========================================================================================
+  # 2. Shared Helpers
+  # =========================================================================================
+  js_helpers <- '
+    function getCol(id) {
+        var raw = getValue(id);
+        if (!raw) return "NULL";
+        if (raw.indexOf("[[") > -1) {
+            var match = raw.match(/\\[\\[\\"(.*?)\\"\\]\\]/);
+            return match ? match[1] : raw;
+        }
+        return raw.split("$").pop();
+    }
+  '
+
+  country_options <- list(
+      "Mexico" = list(val = "Mexico", chk = TRUE),
+      "United States" = list(val = "United States of America"),
+      "Canada" = list(val = "Canada"),
+      "Brazil" = list(val = "Brazil"),
+      "Argentina" = list(val = "Argentina"),
+      "Colombia" = list(val = "Colombia"),
+      "Chile" = list(val = "Chile"),
+      "Peru" = list(val = "Peru"),
+      "Spain" = list(val = "Spain"),
+      "France" = list(val = "France"),
+      "Germany" = list(val = "Germany"),
+      "Italy" = list(val = "Italy"),
+      "United Kingdom" = list(val = "United Kingdom")
+  )
+
+  # =========================================================================================
+  # 3. MAIN PLUGIN: Choropleth Map (Passed directly to Skeleton)
+  # =========================================================================================
+
+  # UI Definition
+  var_sel <- rk.XML.varselector(id.name = "v_sel")
+  inp_data <- rk.XML.varslot(label = "Data Frame", source = "v_sel", classes = "data.frame", required = TRUE, id.name = "inp_data")
+  inp_region <- rk.XML.varslot(label = "Region Name Column", source = "v_sel", required = TRUE, id.name = "inp_region_col")
+  inp_value <- rk.XML.varslot(label = "Value Column", source = "v_sel", required = TRUE, id.name = "inp_value_col")
+
+  drp_country_map <- rk.XML.dropdown(label = "Select Country", id.name = "drp_country", options = country_options)
+  inp_custom_map <- rk.XML.input(label = "Or type Country name", id.name = "inp_custom_country", required = FALSE)
+
+  drp_palette <- rk.XML.dropdown(label = "Color Palette", id.name = "drp_palette", options = list("Viridis (Default)"=list(val="D",chk=TRUE),"Magma"=list(val="A"),"Inferno"=list(val="B"),"Plasma"=list(val="C"),"Cividis"=list(val="E")))
+  inp_title <- rk.XML.input(label = "Map Title", id.name = "map_title")
+  inp_caption <- rk.XML.input(label = "Caption", id.name = "map_caption")
+
+  save_map <- rk.XML.saveobj(label = "Save Map Object", initial = "my_choropleth", id.name = "save_map_obj", chk = TRUE)
+  preview_map <- rk.XML.preview(mode = "plot")
+
+  # Main Dialog
+  main_dialog <- rk.XML.dialog(
+    label = "Choropleth Map",
+    child = rk.XML.row(
+        var_sel,
+        rk.XML.col(rk.XML.tabbook(tabs = list(
+            "Data & Location" = rk.XML.col(drp_country_map, inp_custom_map, rk.XML.stretch(), inp_data, inp_region, inp_value),
+            "Appearance" = rk.XML.col(drp_palette, inp_title, inp_caption),
+            "Output" = rk.XML.col(save_map, preview_map)
+        )))
+    )
+  )
+
+  # Main JS
+  js_calc_map <- paste0(js_helpers, '
+    var df = getValue("inp_data"); var region_col = getCol("inp_region_col"); var val_col = getCol("inp_value_col");
+    var country = getValue("drp_country"); var custom = getValue("inp_custom_country");
+    if (custom && custom !== "") { country = custom; }
+    var pal = getValue("drp_palette"); var tit = getValue("map_title"); var cap = getValue("map_caption");
+
+    echo("user_data <- " + df + "\\n");
+    echo("map_sf <- rnaturalearth::ne_states(country = \\"" + country + "\\", returnclass = \\"sf\\")\\n");
+    echo("if(nrow(map_sf) == 0) stop(\\"Could not find map data for country: " + country + ". Check spelling (must be in English).\\")\\n");
+    echo("plot_data <- map_sf %>% dplyr::left_join(user_data, by = c(\\"name\\" = \\"" + region_col + "\\"))\\n");
+
+    echo("p <- ggplot2::ggplot(plot_data) +\\n");
+    echo("  ggplot2::geom_sf(ggplot2::aes(fill = .data[[\\"" + val_col + "\\"]]), color = \\"white\\", size = 0.2) +\\n");
+    echo("  ggplot2::scale_fill_viridis_c(option = \\"" + pal + "\\", na.value = \\"gray90\\", name = \\"" + val_col + "\\") +\\n");
+    echo("  ggplot2::theme_void() + ggplot2::theme(legend.position = \\"right\\")\\n");
+    if (tit) echo("p <- p + ggplot2::labs(title = \\"" + tit + "\\")\\n");
+    if (cap) echo("p <- p + ggplot2::labs(caption = \\"" + cap + "\\")\\n");
+  ')
+
+  js_print_map <- '
+    if (is_preview) { echo("print(p)\\n"); } else {
+        echo("rk.graph.on()\\n"); echo("print(p)\\n"); echo("rk.graph.off()\\n");
+        echo(getValue("save_map_obj") + " <- p\\n");
+    }
+  '
+
+  # =========================================================================================
+  # 4. COMPONENT: Get Map Region Names (The Extractor)
+  # =========================================================================================
+
+  drp_country_ext <- rk.XML.dropdown(label = "Select Country", id.name = "drp_country_ext", options = country_options)
+  inp_custom_ext <- rk.XML.input(label = "Or type Country name", id.name = "inp_custom_ext", required = FALSE)
+  save_names <- rk.XML.saveobj(label = "Save Names to Data Frame", initial = "map_names_ref", id.name = "save_names_obj", chk = TRUE)
+
+  dialog_names <- rk.XML.dialog(label = "Get Map Region Names", child = rk.XML.col(
+      rk.XML.text("Extracts the official region/state names from the map source to help you fix mismatches in your data."),
+      drp_country_ext,
+      inp_custom_ext,
+      rk.XML.stretch(),
+      save_names
+  ))
+
+  js_calc_names <- '
+    var country = getValue("drp_country_ext");
+    var custom = getValue("inp_custom_ext");
+    if (custom && custom !== "") { country = custom; }
+    var save_obj = getValue("save_names_obj");
+    echo("map_sf <- rnaturalearth::ne_states(country = \\"" + country + "\\", returnclass = \\"sf\\")\\n");
+    echo("if(nrow(map_sf) == 0) stop(\\"Could not find map data for country: " + country + ".\\")\\n");
+    echo("names_df <- map_sf %>% sf::st_drop_geometry() %>% dplyr::select(any_of(c(\\"name\\", \\"iso_3166_2\\", \\"postal\\", \\"type\\", \\"gn_name\\")))\\n");
+    echo(save_obj + " <- names_df\\n");
+  '
+
+  js_print_names <- '
+    echo("rk.header(\\"Map Region Names Extracted\\")\\n");
+    echo("rk.print(\\"Object saved as: " + getValue("save_names_obj") + "\\")\\n");
+    echo("rk.print(head(" + getValue("save_names_obj") + ", 20))\\n");
+  '
+
+  component_names <- rk.plugin.component("Get Map Names",
+      xml = list(dialog = dialog_names),
+      js = list(require=c("rnaturalearth", "sf", "dplyr"), calculate=js_calc_names, printout=js_print_names),
+      hierarchy = list("plots", "Maps")
+  )
+
+  # =========================================================================================
+  # 5. Assembly
+  # =========================================================================================
+
+  rk.plugin.skeleton(
+    about = package_about,
+    path = ".",
+
+    # MAIN PLUGIN (Choropleth Map)
+    xml = list(dialog = main_dialog),
+    js = list(
+        require = c("rnaturalearth", "sf", "ggplot2", "dplyr", "viridis"),
+        calculate = js_calc_map,
+        printout = js_print_map
+    ),
+
+    # ADDITIONAL COMPONENTS
+    components = list(component_names),
+
+    pluginmap = list(
+        name = "Choropleth Map",
+        hierarchy = list("plots", "Maps")
+        # po_id removed as requested
+    ),
+    create = c("pmap", "xml", "js", "desc", "rkh"),
+    load = TRUE, overwrite = TRUE, show = FALSE
+  )
+
+  cat("\nPlugin 'rk.rnaturalearth' (v0.0.2) generated successfully.\n")
+})

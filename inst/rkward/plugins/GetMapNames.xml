@@ -1,0 +1,46 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="GetMapNames.js" />
+	<help file="GetMapNames.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Get Map Region Names">
+		<column id="clm_tEESCMMUSU">
+			<text id="txt_Extrctst">
+				Extracts the official region/state names from the map source to help you fix mismatches in your data.
+			</text>
+			<dropdown id="drp_country_ext" label="Select Country">
+				<option label="Mexico" value="Mexico" checked="true" />
+				<option label="United States" value="United States of America" />
+				<option label="Canada" value="Canada" />
+				<option label="Brazil" value="Brazil" />
+				<option label="Argentina" value="Argentina" />
+				<option label="Colombia" value="Colombia" />
+				<option label="Chile" value="Chile" />
+				<option label="Peru" value="Peru" />
+				<option label="Spain" value="Spain" />
+				<option label="France" value="France" />
+				<option label="Germany" value="Germany" />
+				<option label="Italy" value="Italy" />
+				<option label="United Kingdom" value="United Kingdom" />
+			</dropdown>
+			<input label="Or type Country name" id="inp_custom_ext" />
+			<stretch />
+			<saveobject label="Save Names to Data Frame" checkable="true" checked="true" initial="map_names_ref" id="save_names_obj" />
+		</column>
+	</dialog>
+</document>

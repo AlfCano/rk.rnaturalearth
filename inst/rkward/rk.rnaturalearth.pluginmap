@@ -1,0 +1,97 @@
+<!DOCTYPE
+	rkpluginmap
+>
+<document
+	base_prefix=""
+	namespace="ChoroplethMap"
+	id="ChoroplethMap_rkward"
+	po_id="ChoroplethMap_rkward"
+	priority="medium"
+>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<about
+		name="rk.rnaturalearth"
+		shortinfo="An RKWard wrapper for 'rnaturalearth'. Includes tools to visualize Choropleth maps, extract region names, and add spatial elements (North Arrow, Scale)."
+		longinfo="An RKWard wrapper for 'rnaturalearth'. Includes tools to visualize Choropleth maps, extract region names, and add spatial elements (North Arrow, Scale)."
+		version="0.0.1"
+		releasedate="2026-02-20"
+		url="https://github.com/AlfCano/rk.rnaturalearth"
+		license="GPL (&gt;= 3)"
+	>
+		<author
+			given="Alfonso"
+			family="Cano"
+			email="alfonso.cano@correo.buap.mx"
+			role="aut, cre"
+		/>
+	</about>
+	<require
+		map="rkward::menu"
+	/>
+	<require
+		map="rkward::embedded"
+	/>
+	<components>
+		<component
+			id="cmp_ChoroplethMapGetMapNames"
+			label="Get Map Names"
+			type="standard"
+			file="plugins/GetMapNames.xml"
+		>
+		</component>
+		<component
+			id="cmp_ChoroplethMapChoroplethMp"
+			label="Choropleth Map"
+			type="standard"
+			file="plugins/ChoroplethMap.xml"
+		>
+		</component>
+	</components>
+	<hierarchy>
+		<menu
+			id="plots"
+			label="Plots"
+		>
+			<menu
+				id="Maps"
+				label="Maps"
+			>
+				<entry
+					component="cmp_ChoroplethMapGetMapNames"
+				/>
+			</menu>
+		</menu>
+		<menu
+			id="plots"
+			label="Plots"
+		>
+			<menu
+				id="Maps"
+				label="Maps"
+			>
+				<entry
+					component="cmp_ChoroplethMapChoroplethMp"
+				/>
+			</menu>
+		</menu>
+	</hierarchy>
+	<!--
+		<context
+			id="x11"
+		>
+		</context>
+	-->
+	<!--
+		<context
+			id="import"
+		>
+		</context>
+	-->
+</document>

@@ -1,0 +1,160 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: rk.rnaturalearth 0.0.6\n"
+"Report-Msgid-Bugs-To: alfonso.cano@correo.buap.mx\n"
+"POT-Creation-Date: 2026-02-20 00:37-0600\n"
+"PO-Revision-Date: 2026-02-20 01:00-0600\n"
+"Last-Translator: Full Name <email@address>\n"
+"Language-Team: Portuguese (Brazil) <pt_BR@li.org>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "An RKWard wrapper for 'rnaturalearth'. Includes tools to visualize Choropleth maps, extract region names, and add spatial elements (North Arrow, Scale)."
+msgstr "Um wrapper RKWard para 'rnaturalearth'. Inclui ferramentas para visualizar mapas coropléticos, extrair nomes de regiões e adicionar elementos espaciais (Rosa dos Ventos, Escala)."
+
+msgid "Choropleth Map"
+msgstr "Mapa Coroplético"
+
+msgid "Data Frame"
+msgstr "Data Frame"
+
+msgid "Region Name Column"
+msgstr "Coluna Nome da Região"
+
+msgid "Value Column"
+msgstr "Coluna de Valor"
+
+msgid "Select Country"
+msgstr "Selecionar País"
+
+msgid "Or type Country name"
+msgstr "Ou digite o nome do País"
+
+msgid "Color Palette"
+msgstr "Paleta de Cores"
+
+msgid "Viridis (Default)"
+msgstr "Viridis (Padrão)"
+
+msgid "Map Title"
+msgstr "Título do Mapa"
+
+msgid "Caption"
+msgstr "Legenda / Fonte"
+
+msgid "Show Region Labels"
+msgstr "Mostrar Rótulos de Região"
+
+msgid "Label Size"
+msgstr "Tamanho do Rótulo"
+
+msgid "Allow Overlap"
+msgstr "Permitir Sobreposição"
+
+msgid "Text Labels"
+msgstr "Rótulos de Texto"
+
+msgid "North Arrow"
+msgstr "Rosa dos Ventos"
+
+msgid "Position"
+msgstr "Posição"
+
+msgid "Top Right"
+msgstr "Superior Direito"
+
+msgid "Top Left"
+msgstr "Superior Esquerdo"
+
+msgid "Bottom Right"
+msgstr "Inferior Direito"
+
+msgid "Bottom Left"
+msgstr "Inferior Esquerdo"
+
+msgid "Style"
+msgstr "Estilo"
+
+msgid "Default"
+msgstr "Padrão"
+
+msgid "Fancy"
+msgstr "Elegante (Fancy)"
+
+msgid "Minimal"
+msgstr "Minimalista"
+
+msgid "Scale Bar"
+msgstr "Barra de Escala"
+
+msgid "Save Map Object"
+msgstr "Salvar Objeto de Mapa"
+
+msgid "Data & Location"
+msgstr "Dados e Localização"
+
+msgid "Appearance"
+msgstr "Aparência"
+
+msgid "Map Elements"
+msgstr "Elementos do Mapa"
+
+msgid "Output"
+msgstr "Saída"
+
+msgid "Get Map Region Names"
+msgstr "Obter Nomes de Região"
+
+msgid "Extracts the official region/state names from the map source to help you fix mismatches in your data."
+msgstr "Extrai os nomes oficiais de região/estado da fonte do mapa para ajudá-lo a corrigir incompatibilidades em seus dados."
+
+msgid "Save Names to Data Frame"
+msgstr "Salvar Nomes no Data Frame"
+
+msgid "Get Map Names"
+msgstr "Obter Nomes do Mapa"
+
+msgid "Maps"
+msgstr "Mapas"
+
+# Country Names
+msgid "Mexico"
+msgstr "México"
+
+msgid "United States"
+msgstr "Estados Unidos"
+
+msgid "Canada"
+msgstr "Canadá"
+
+msgid "Brazil"
+msgstr "Brasil"
+
+msgid "Argentina"
+msgstr "Argentina"
+
+msgid "Colombia"
+msgstr "Colômbia"
+
+msgid "Chile"
+msgstr "Chile"
+
+msgid "Peru"
+msgstr "Peru"
+
+msgid "Spain"
+msgstr "Espanha"
+
+msgid "France"
+msgstr "França"
+
+msgid "Germany"
+msgstr "Alemanha"
+
+msgid "Italy"
+msgstr "Itália"
+
+msgid "United Kingdom"
+msgstr "Reino Unido"
