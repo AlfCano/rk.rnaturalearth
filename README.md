@@ -23,6 +23,8 @@ This plugin creates a professional, modular workflow for spatial analysis: **Dow
     *   **Grids:** Choose between Clean (Void), Standard Graticules, or **Dotted Graticules (No Labels)** for a minimalist look.
     *   **Borders:** Customize polygon outline colors (White, Black, Gray, etc.).
     *   **Legends:** Full control over legend position and custom titles.
+    
+    <img src="screenshots/categorical_map.png" alt="Categorical Map Example" width="100%">
 
 ### 3. Professional Cartography Elements (`ggspatial`)
 *   **North Arrows:** Add "N" arrows with multiple styles (Classic, Fancy, Minimal).
