@@ -1,29 +1,38 @@
 # rk.rnaturalearth: Easy Choropleth Maps for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.0.1-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.1.3-blue.svg)
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 ![RKWard](https://img.shields.io/badge/Platform-RKWard-green)
 [![R Linter](https://github.com/AlfCano/rk.rnaturalearth/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.rnaturalearth/actions/workflows/lintr.yml)
+![AI Gemini](https://img.shields.io/badge/AI-Gemini-4285F4?logo=googlegemini&logoColor=white)
 
 **rk.rnaturalearth** is a user-friendly wrapper for the `rnaturalearth`, `sf`, and `ggspatial` packages within RKWard. It allows users to generate high-quality administrative Choropleth maps (heat maps based on regions) without needing complex GIS knowledge or shapefile management.
 
-Simply select a country, link your data, and add professional map elements like north arrows and scale bars in seconds.
+This plugin creates a professional, modular workflow for spatial analysis: **Download -> Transform -> Process -> Plot.**
 
 ## 🚀 Features
 
-### 1. Instant Choropleth Maps
-*   **Built-in Shapefiles:** No need to download `.shp` files manually. The plugin fetches administrative boundaries (states/provinces) automatically via `rnaturalearth`.
-*   **Country Support:** Pre-configured for major countries (Mexico, USA, Brazil, Spain, etc.) with a custom option for any country supported by Natural Earth.
-*   **Automatic Joining:** Seamlessly merges your data frame with map data based on region names.
+### 1. Modular Workflow
+*   **Downloader Component:** Fetch administrative boundaries (states/provinces) automatically via `rnaturalearth` and save them as `sf` objects in your workspace.
+*   **Separation of Concerns:** Download the map once, then reuse the object for multiple plots or data joins without re-downloading.
 
-### 2. Professional Cartography Elements (`ggspatial`)
-*   **North Arrows:** Add "N" arrows with multiple styles (Classic, Fancy, Minimal) and position them anywhere on the plot.
-*   **Scale Bars:** Automatically calculated scale bars (km/miles) to provide spatial context.
+### 2. Advanced Visualization Tools
+*   **Continuous Maps:** Plot numeric variables (e.g., Population, Income) using color-blind friendly **Viridis** palettes.
+*   **Categorical Maps:** **(New in v0.1.x)** Plot discrete groups (e.g., "North vs South", "Electoral Districts") using **RColorBrewer** palettes or manual colors.
+*   **Deep Styling Control:**
+    *   **Grids:** Choose between Clean (Void), Standard Graticules, or **Dotted Graticules (No Labels)** for a minimalist look.
+    *   **Borders:** Customize polygon outline colors (White, Black, Gray, etc.).
+    *   **Legends:** Full control over legend position and custom titles.
+
+### 3. Professional Cartography Elements (`ggspatial`)
+*   **North Arrows:** Add "N" arrows with multiple styles (Classic, Fancy, Minimal).
+*   **Scale Bars:** Automatically calculated scale bars to provide spatial context.
 *   **Smart Labeling:** Add region names with collision detection (`check_overlap`) to prevent cluttered text.
 
-### 3. Data Helper: Region Name Extractor
-*   **Fix Data Mismatches:** One of the hardest parts of mapping is spelling (e.g., "Ciudad de México" vs "Distrito Federal").
-*   **Utility Tool:** Includes a dedicated component to extract the *exact* official names used by the map engine into a data frame, so you can clean your data before plotting.
+### 4. Data Helpers
+*   **Projection Transformer:** Convert maps from degrees (WGS84) to planar projections (e.g., Web Mercator, Mexico ITRF2008) to fix scale bar warnings and improve geometric accuracy.
+*   **Region Name Extractor:** Extract official map names to a data frame to check spelling.
+*   **Recoding Tool:** Update map region names using a dictionary data frame to fix mismatches.
 
 ## 📦 Installation
 
@@ -60,66 +69,77 @@ Once installed, the tools are organized under:
 
 **`Plots` -> `Maps`**
 
-1.  **Choropleth Map:** The main visualization interface.
-2.  **Get Map Names:** The utility to check official region spellings.
+1.  **Download Map Object:** Start here to get the shapefile.
+2.  **Plot Continuous Map:** For numeric heatmaps.
+3.  **Plot Categorical Map:** For grouping/regions.
+4.  **Get Map Names:** To check spelling.
+5.  **Recode Map Regions:** To fix spelling errors in the map object.
+6.  **Transform Map Projection:** To convert CRS (e.g., Lat/Lon to Meters).
 
 ## 🎓 Quick Start Examples
 
-### Example 1: Creating a Map of Mexico
-**Scenario:** We want to visualize random "Satisfaction Scores" for every state in Mexico.
+### Example 1: The Basic Workflow (Continuous)
+**Scenario:** Visualizing random "Satisfaction Scores" for Mexico.
 
-**A. Data Preparation (Run in Console):**
-First, let's create a synthetic dataset.
+**Step 1: Download Map**
+*   Open **Download Map Object**.
+*   Select **Mexico**.
+*   Save as: `map_mx`.
+
+**Step 2: Prepare Data (Run in Console)**
 ```R
-library(rnaturalearth)
-library(dplyr)
-
-# 1. Get the list of states to ensure perfect matching
-mx_geo <- ne_states(country = "Mexico", returnclass = "sf")
-
-# 2. Create random data
-set.seed(123)
+# Create synthetic data matching the downloaded map
 my_mexico_data <- data.frame(
-  StateName = mx_geo$name,
-  Score = runif(nrow(mx_geo), min = 50, max = 100)
+  StateName = map_mx$name, 
+  Score = runif(nrow(map_mx), min = 50, max = 100)
 )
 ```
 
-**B. Plugin Settings (Choropleth Map):**
-*   **Tab: Data & Location**
-    *   **Select Country:** `Mexico`
-    *   **Data Frame:** `my_mexico_data`
-    *   **Region Name Column:** `StateName`
-    *   **Value Column:** `Score`
-*   **Tab: Appearance**
-    *   **Color Palette:** `Magma`
-    *   **Map Title:** `Satisfaction by State`
-*   **Tab: Map Elements**
-    *   **North Arrow:** Checked (Position: Top Left, Style: Fancy)
-    *   **Scale Bar:** Checked (Position: Bottom Left)
-    *   **Show Region Labels:** Checked (Size: 3)
+**Step 3: Plot**
+*   Open **Plot Continuous Map**.
+*   **Map Object:** `map_mx`.
+*   **Data Frame:** `my_mexico_data`.
+*   **Joining Columns:** `name` (Map) and `StateName` (Data).
+*   **Value Column:** `Score`.
+*   **Appearance:** Palette `Magma`, Grid `Clean (Void)`.
 
 ---
 
-### Example 2: Handling Custom Countries (Spain)
-**Scenario:** You have data for Spain but aren't sure if the map uses "Cataluña" or "Catalonia".
+### Example 2: Categorical Regions
+**Scenario:** Coloring states by "Study Region" (North, Center, South).
 
-**A. Use the "Get Map Names" Component:**
-1.  Open **Plots -> Maps -> Get Map Names**.
-2.  Select **Spain**.
-3.  Save the object as `spain_ref`.
-4.  Click **Submit**.
-5.  Check the output in RKWard to see the `name` column (e.g., it might list "Cataluña" or "Catalonia" depending on the version).
+**Step 1:** Download `map_mx` (if not already done).
 
-**B. Plotting:**
+**Step 2: Prepare Data (Run in Console)**
 ```R
-# Assuming we found the names use Spanish spelling
-spain_data <- data.frame(
-  Region = c("Madrid", "Cataluña", "Andalucía", "Galicia"),
-  Population_Millions = c(6.6, 7.5, 8.4, 2.7)
+# Assign regions randomly for demonstration
+my_regions <- data.frame(
+  StateName = map_mx$name,
+  Region = sample(c("North", "Center", "South"), nrow(map_mx), replace = TRUE)
 )
 ```
-*   **Plugin Settings:** Select Country `Spain`, Map `Region` column, and select `Viridis` palette. Note that regions not in your data (like Valencia) will appear in gray (NA).
+
+**Step 3: Plot**
+*   Open **Plot Categorical Map**.
+*   **Map Object:** `map_mx`.
+*   **Data Frame:** `my_regions`.
+*   **Grouping Variable:** `Region`.
+*   **Appearance:** 
+    *   Palette: `Brewer: Set3`.
+    *   Border Color: `White`.
+    *   Legend Position: `Right`.
+
+---
+
+### Example 3: Fixing Scale Bars (Projection)
+**Problem:** You get a warning "Scale on map varies by more than 10%".
+**Solution:** The map is in Degrees (Curved), but needs to be in Meters (Flat).
+
+1.  Open **Transform Map Projection**.
+2.  **Map Object:** `map_mx`.
+3.  **Target Projection:** `Mexico ITRF2008 / LCC (6362)` (or Web Mercator).
+4.  **Save As:** `map_mx_projected`.
+5.  Use `map_mx_projected` in the Plotting plugins. The scale bar will now be accurate.
 
 ## 🛠️ Dependencies
 
@@ -129,9 +149,11 @@ This plugin relies on the following R packages:
 *   `ggplot2` (Plotting engine)
 *   `ggspatial` (North arrows and scales)
 *   `viridis` (Color blindness-friendly palettes)
+*   `RColorBrewer` (Categorical palettes)
 *   `dplyr` (Data manipulation)
 
 ## ✍️ Author & License
 
 *   **Author:** Alfonso Cano (<alfonso.cano@correo.buap.mx>)
+*   **Assisted by:** Gemini, a large language model from Google.
 *   **License:** GPL (>= 3)

@@ -14,9 +14,17 @@
 		</section>
 	-->
 	<settings>
+		<caption id="frm_Inputs" />
 		<setting id="inp_map_obj">
 		</setting>
-		<setting id="save_names_obj">
+		<setting id="inp_dict_df">
+		</setting>
+		<caption id="frm_Crrspndn" />
+		<setting id="inp_col_old">
+		</setting>
+		<setting id="inp_col_new">
+		</setting>
+		<setting id="save_mod_map">
 		</setting>
 	</settings>
 	<!--

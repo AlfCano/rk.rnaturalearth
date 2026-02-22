@@ -1,0 +1,44 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="TransformMapProjection.js" />
+	<help file="TransformMapProjection.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Transform Map Projection">
+		<row id="row_vPCRSCRSPC">
+			<varselector id="v_sel_trans" />
+			<column id="clm_tPCRSCRSPC">
+				<text id="txt_PrCRSCRS">
+					Projects the map to a specific Coordinate Reference System (CRS).
+				</text>
+				<varslot id="inp_map_obj" label="Map Object (sf)" source="v_sel_trans" classes="sf" required="true" />
+				<frame label="Projection Settings" id="frm_PrjctnSt">
+					<dropdown id="drp_crs" label="Target Projection (CRS)">
+						<option label="Google/Web Mercator (3857)" value="3857" checked="true" />
+						<option label="Mexico ITRF2008 / LCC (6362)" value="6362" />
+						<option label="WGS 84 (4326) - Unprojected" value="4326" />
+						<option label="Robinson (World)" value="ESRI:54030" />
+						<option label="US National Atlas (2163)" value="2163" />
+					</dropdown>
+					<input label="Or custom EPSG Code (e.g. 6362)" id="inp_custom_crs" />
+				</frame>
+				<stretch />
+				<saveobject label="Save Transformed Map As" checkable="true" checked="true" initial="map_projected" id="save_trans_map" />
+			</column>
+		</row>
+	</dialog>
+</document>

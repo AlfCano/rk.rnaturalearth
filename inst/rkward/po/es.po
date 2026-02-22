@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rk.rnaturalearth 0.0.6\n"
+"Project-Id-Version: rk.rnaturalearth 0.1.3\n"
 "Report-Msgid-Bugs-To: alfonso.cano@correo.buap.mx\n"
-"POT-Creation-Date: 2026-02-20 00:37-0600\n"
-"PO-Revision-Date: 2026-02-20 01:00-0600\n"
+"POT-Creation-Date: 2026-02-21 21:00-0600\n"
+"PO-Revision-Date: 2026-02-21 21:05-0600\n"
 "Last-Translator: Alfonso Cano <alfonso.cano@correo.buap.mx>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Language: es\n"
@@ -11,20 +11,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "An RKWard wrapper for 'rnaturalearth'. Includes tools to visualize Choropleth maps, extract region names, and add spatial elements (North Arrow, Scale)."
-msgstr "Un envoltorio de RKWard para 'rnaturalearth'. Incluye herramientas para visualizar mapas de coropletas, extraer nombres de regiones y añadir elementos espaciales (Rosa de los vientos, Escala)."
+# Metadata
+msgid "An RKWard wrapper for 'rnaturalearth'. Features a modular workflow: Download -> Process -> Plot (Continuous & Categorical)."
+msgstr "Un envoltorio de RKWard para 'rnaturalearth'. Presenta un flujo de trabajo modular: Descargar -> Procesar -> Graficar (Continuo y Categórico)."
 
-msgid "Choropleth Map"
-msgstr "Mapa de Coropletas"
-
-msgid "Data Frame"
-msgstr "Data Frame"
-
-msgid "Region Name Column"
-msgstr "Columna Nombre de Región"
-
-msgid "Value Column"
-msgstr "Columna de Valor"
+msgid "Download Map Object"
+msgstr "Descargar Objeto de Mapa"
 
 msgid "Select Country"
 msgstr "Seleccionar País"
@@ -32,11 +24,18 @@ msgstr "Seleccionar País"
 msgid "Or type Country name"
 msgstr "O escriba el nombre del País"
 
+msgid "Save Map Object As"
+msgstr "Guardar Objeto de Mapa Como"
+
+msgid "Downloads administrative boundaries (states/provinces) from Natural Earth and saves them as an 'sf' object."
+msgstr "Descarga límites administrativos (estados/provincias) de Natural Earth y los guarda como un objeto 'sf'."
+
+# Plotting - Common Appearance
 msgid "Color Palette"
 msgstr "Paleta de Colores"
 
-msgid "Viridis (Default)"
-msgstr "Viridis (Predeterminada)"
+msgid "Polygon Border Color"
+msgstr "Color del Borde del Polígono"
 
 msgid "Map Title"
 msgstr "Título del Mapa"
@@ -44,6 +43,16 @@ msgstr "Título del Mapa"
 msgid "Caption"
 msgstr "Pie de página / Fuente"
 
+msgid "Legend Title (Leave empty for variable name)"
+msgstr "Título de Leyenda (Dejar vacío para usar nombre de variable)"
+
+msgid "Legend Position"
+msgstr "Posición de Leyenda"
+
+msgid "Legend Settings"
+msgstr "Configuración de Leyenda"
+
+# Plotting - Map Elements
 msgid "Show Region Labels"
 msgstr "Mostrar Etiquetas de Región"
 
@@ -56,12 +65,160 @@ msgstr "Permitir Superposición"
 msgid "Text Labels"
 msgstr "Etiquetas de Texto"
 
+msgid "Map Style / Grid"
+msgstr "Estilo de Mapa / Cuadrícula"
+
+msgid "Clean (Void)"
+msgstr "Limpio (Vacío)"
+
+msgid "Lat/Lon Graticules (Degrees)"
+msgstr "Retícula Lat/Lon (Grados)"
+
+msgid "Lat/Lon Graticules (Dotted, No Labels)"
+msgstr "Retícula Lat/Lon (Punteada, Sin Etiquetas)"
+
 msgid "North Arrow"
 msgstr "Rosa de los Vientos"
 
 msgid "Position"
 msgstr "Posición"
 
+msgid "Style"
+msgstr "Estilo"
+
+msgid "Scale Bar"
+msgstr "Barra de Escala"
+
+# Plotting - Export
+msgid "Save Plot Object"
+msgstr "Guardar Objeto del Gráfico"
+
+msgid "Graphics Export Settings"
+msgstr "Configuración de Exportación de Gráficos"
+
+msgid "Device type"
+msgstr "Tipo de dispositivo"
+
+msgid "Width (px)"
+msgstr "Ancho (px)"
+
+msgid "Height (px)"
+msgstr "Alto (px)"
+
+msgid "Resolution (ppi)"
+msgstr "Resolución (ppi)"
+
+msgid "Background"
+msgstr "Fondo"
+
+msgid "Transparent"
+msgstr "Transparente"
+
+msgid "White"
+msgstr "Blanco"
+
+# Plot Continuous
+msgid "Plot Continuous Map"
+msgstr "Graficar Mapa Continuo"
+
+msgid "Map Object (sf)"
+msgstr "Objeto de Mapa (sf)"
+
+msgid "Data Frame"
+msgstr "Data Frame"
+
+msgid "Region Name Column (Data)"
+msgstr "Columna Nombre de Región (Datos)"
+
+msgid "Value Column (Numeric)"
+msgstr "Columna de Valor (Numérica)"
+
+msgid "Continuous Palette"
+msgstr "Paleta Continua"
+
+msgid "Data Input"
+msgstr "Entrada de Datos"
+
+msgid "Appearance"
+msgstr "Apariencia"
+
+msgid "Map Elements"
+msgstr "Elementos del Mapa"
+
+msgid "Output & Export"
+msgstr "Salida y Exportación"
+
+# Plot Categorical
+msgid "Plot Categorical Map"
+msgstr "Graficar Mapa Categórico"
+
+msgid "Grouping Variable (Categorical)"
+msgstr "Variable de Agrupación (Categórica)"
+
+msgid "Categorical Palette"
+msgstr "Paleta Categórica"
+
+msgid "Manual Colors"
+msgstr "Colores Manuales"
+
+msgid "Manual Colors (comma separated, e.g. 'red', '#00FF00')"
+msgstr "Colores Manuales (separados por coma, ej. 'red', '#00FF00')"
+
+# Get Names
+msgid "Get Map Region Names"
+msgstr "Obtener Nombres de Regiones"
+
+msgid "Save Names As"
+msgstr "Guardar Nombres Como"
+
+msgid "Extracts official names from a downloaded map object."
+msgstr "Extrae los nombres oficiales de un objeto de mapa descargado."
+
+# Recode
+msgid "Recode Map Regions"
+msgstr "Recodificar Regiones del Mapa"
+
+msgid "Dictionary Data Frame"
+msgstr "Data Frame Diccionario"
+
+msgid "Old Name Column"
+msgstr "Columna Nombre Viejo"
+
+msgid "New Name Column"
+msgstr "Columna Nombre Nuevo"
+
+msgid "Save Modified Map As"
+msgstr "Guardar Mapa Modificado Como"
+
+msgid "Update map names using a dictionary."
+msgstr "Actualizar nombres del mapa usando un diccionario."
+
+msgid "Inputs"
+msgstr "Entradas"
+
+msgid "Correspondence"
+msgstr "Correspondencia"
+
+# Transform
+msgid "Transform Map Projection"
+msgstr "Transformar Proyección del Mapa"
+
+msgid "Target Projection (CRS)"
+msgstr "Proyección Objetivo (CRS)"
+
+msgid "Or custom EPSG Code (e.g. 6362)"
+msgstr "O código EPSG personalizado (ej. 6362)"
+
+msgid "Save Transformed Map As"
+msgstr "Guardar Mapa Transformado Como"
+
+msgid "Projects the map to a specific Coordinate Reference System (CRS)."
+msgstr "Proyecta el mapa a un Sistema de Referencia de Coordenadas (CRS) específico."
+
+msgid "Projection Settings"
+msgstr "Configuración de Proyección"
+
+# Common Options
 msgid "Top Right"
 msgstr "Arriba Derecha"
 
@@ -74,9 +231,6 @@ msgstr "Abajo Derecha"
 msgid "Bottom Left"
 msgstr "Abajo Izquierda"
 
-msgid "Style"
-msgstr "Estilo"
-
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -86,75 +240,35 @@ msgstr "Elegante (Fancy)"
 msgid "Minimal"
 msgstr "Minimalista"
 
-msgid "Scale Bar"
-msgstr "Barra de Escala"
+msgid "Right"
+msgstr "Derecha"
 
-msgid "Save Map Object"
-msgstr "Guardar Objeto de Mapa"
+msgid "Left"
+msgstr "Izquierda"
 
-msgid "Data & Location"
-msgstr "Datos y Ubicación"
+msgid "Top"
+msgstr "Arriba"
 
-msgid "Appearance"
-msgstr "Apariencia"
+msgid "Bottom"
+msgstr "Abajo"
 
-msgid "Map Elements"
-msgstr "Elementos del Mapa"
+msgid "None"
+msgstr "Ninguno"
 
-msgid "Output"
-msgstr "Salida"
+msgid "Black"
+msgstr "Negro"
 
-msgid "Get Map Region Names"
-msgstr "Obtener Nombres de Regiones"
+msgid "Dark Gray"
+msgstr "Gris Oscuro"
 
-msgid "Extracts the official region/state names from the map source to help you fix mismatches in your data."
-msgstr "Extrae los nombres oficiales de regiones/estados de la fuente del mapa para ayudarle a corregir discrepancias en sus datos."
+msgid "Light Gray"
+msgstr "Gris Claro"
 
-msgid "Save Names to Data Frame"
-msgstr "Guardar Nombres en Data Frame"
+msgid "Google/Web Mercator (3857)"
+msgstr "Google/Web Mercator (3857)"
 
-msgid "Get Map Names"
-msgstr "Obtener Nombres de Mapa"
+msgid "Mexico ITRF2008 / LCC (6362)"
+msgstr "México ITRF2008 / LCC (6362)"
 
-msgid "Maps"
-msgstr "Mapas"
-
-# Country Names
-msgid "Mexico"
-msgstr "México"
-
-msgid "United States"
-msgstr "Estados Unidos"
-
-msgid "Canada"
-msgstr "Canadá"
-
-msgid "Brazil"
-msgstr "Brasil"
-
-msgid "Argentina"
-msgstr "Argentina"
-
-msgid "Colombia"
-msgstr "Colombia"
-
-msgid "Chile"
-msgstr "Chile"
-
-msgid "Peru"
-msgstr "Perú"
-
-msgid "Spain"
-msgstr "España"
-
-msgid "France"
-msgstr "Francia"
-
-msgid "Germany"
-msgstr "Alemania"
-
-msgid "Italy"
-msgstr "Italia"
-
-msgid "United Kingdom"
-msgstr "Reino Unido"
+msgid "WGS 84 (4326) - Unprojected"
+msgstr "WGS 84 (4326) - Sin proyectar"

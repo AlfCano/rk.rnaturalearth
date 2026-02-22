@@ -4,8 +4,8 @@
 		this code was generated using the rkwarddev package.
 	perhaps don't make changes here, but in the rkwarddev script instead!
 	-->
-	<code file="ChoroplethMap.js" />
-	<help file="ChoroplethMap.rkh" />
+	<code file="PlotContinuousMap.js" />
+	<help file="PlotContinuousMap.rkh" />
 	<!--
 		<dependencies>
 		</dependencies>
@@ -18,50 +18,57 @@
 			<connect governor="!edit!.state" client="!edit!.enabled" />
 		-->
 	</logic>
-	<dialog label="Choropleth Map">
-		<row id="row_vDLDLSCMMU">
-			<varselector id="v_sel" />
-			<column id="clm_tDLDLSCMMU">
+	<dialog label="Plot Continuous Map">
+		<row id="row_vDIDIMODFR">
+			<varselector id="v_sel_cont" />
+			<column id="clm_tDIDIMODFR">
 				<tabbook>
-					<tab label="Data &amp; Location" id="tab_DataLctn">
-						<column id="clm_dSCMMUSUSA">
-							<dropdown id="drp_country" label="Select Country">
-								<option label="Mexico" value="Mexico" checked="true" />
-								<option label="United States" value="United States of America" />
-								<option label="Canada" value="Canada" />
-								<option label="Brazil" value="Brazil" />
-								<option label="Argentina" value="Argentina" />
-								<option label="Colombia" value="Colombia" />
-								<option label="Chile" value="Chile" />
-								<option label="Peru" value="Peru" />
-								<option label="Spain" value="Spain" />
-								<option label="France" value="France" />
-								<option label="Germany" value="Germany" />
-								<option label="Italy" value="Italy" />
-								<option label="United Kingdom" value="United Kingdom" />
-							</dropdown>
-							<input label="Or type Country name" id="inp_custom_country" />
+					<tab label="Data Input" id="tab_DataInpt">
+						<column id="clm_vMODFRNCDV">
+							<varslot id="inp_map_obj" label="Map Object (sf)" source="v_sel_cont" classes="sf" required="true" />
 							<stretch />
-							<varslot id="inp_data" label="Data Frame" source="v_sel" classes="data.frame" required="true" />
-							<varslot id="inp_region_col" label="Region Name Column" source="v_sel" required="true" />
-							<varslot id="inp_value_col" label="Value Column" source="v_sel" required="true" />
+							<varslot id="inp_data" label="Data Frame" source="v_sel_cont" classes="data.frame" required="true" />
+							<varslot id="inp_region_col" label="Region Name Column (Data)" source="v_sel_cont" required="true" />
+							<varslot id="inp_value_col" label="Value Column (Numeric)" source="v_sel_cont" required="true" />
 						</column>
 					</tab>
 					<tab label="Appearance" id="tab_Appearnc">
 						<column id="clm_dCPVDDMAIB">
-							<dropdown id="drp_palette" label="Color Palette">
+							<dropdown id="drp_palette" label="Continuous Palette">
 								<option label="Viridis (Default)" value="D" checked="true" />
 								<option label="Magma" value="A" />
 								<option label="Inferno" value="B" />
 								<option label="Plasma" value="C" />
 								<option label="Cividis" value="E" />
 							</dropdown>
+							<dropdown id="drp_border_col" label="Polygon Border Color">
+								<option label="White" value="white" checked="true" />
+								<option label="Black" value="black" />
+								<option label="Dark Gray" value="gray40" />
+								<option label="Light Gray" value="gray80" />
+								<option label="None" value="NA" />
+							</dropdown>
+							<frame label="Legend Settings" id="frm_LgndSttn">
+								<input label="Legend Title (Leave empty for variable name)" id="leg_title" />
+								<dropdown id="leg_pos" label="Legend Position">
+									<option label="Right" value="right" checked="true" />
+									<option label="Left" value="left" />
+									<option label="Top" value="top" />
+									<option label="Bottom" value="bottom" />
+									<option label="None" value="none" />
+								</dropdown>
+							</frame>
 							<input label="Map Title" id="map_title" />
 							<input label="Caption" id="map_caption" />
 						</column>
 					</tab>
 					<tab label="Map Elements" id="tab_MpElmnts">
-						<column id="clm_fTLTLSRL1L">
+						<column id="clm_dMSGCVLLGD">
+							<dropdown id="drp_grid_mode" label="Map Style / Grid">
+								<option label="Clean (Void)" value="void" checked="true" />
+								<option label="Lat/Lon Graticules (Degrees)" value="graticule" />
+								<option label="Lat/Lon Graticules (Dotted, No Labels)" value="graticule_clean" />
+							</dropdown>
 							<frame label="Text Labels" id="frm_TextLbls">
 								<row id="row_cSRL1LS311">
 									<checkbox id="chk_labels" label="Show Region Labels" value="1" />
@@ -117,7 +124,7 @@
 									</dropdown>
 								</column>
 							</frame>
-							<saveobject label="Save Map Object" checkable="true" checked="true" initial="p" id="save_map_obj" />
+							<saveobject label="Save Plot Object" checkable="true" checked="true" initial="p" id="save_plot_obj" />
 							<preview label="Preview" id="prv_Preview" />
 						</column>
 					</tab>

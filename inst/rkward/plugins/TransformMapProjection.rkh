@@ -16,7 +16,12 @@
 	<settings>
 		<setting id="inp_map_obj">
 		</setting>
-		<setting id="save_names_obj">
+		<caption id="frm_PrjctnSt" />
+		<setting id="drp_crs">
+		</setting>
+		<setting id="inp_custom_crs">
+		</setting>
+		<setting id="save_trans_map">
 		</setting>
 	</settings>
 	<!--

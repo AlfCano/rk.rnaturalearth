@@ -14,9 +14,11 @@
 		</section>
 	-->
 	<settings>
-		<setting id="inp_map_obj">
+		<setting id="down_country">
 		</setting>
-		<setting id="save_names_obj">
+		<setting id="down_custom">
+		</setting>
+		<setting id="save_map_obj">
 		</setting>
 	</settings>
 	<!--

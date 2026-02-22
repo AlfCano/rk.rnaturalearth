@@ -14,10 +14,8 @@
 		</section>
 	-->
 	<settings>
-		<caption id="tab_DataLctn" />
-		<setting id="drp_country">
-		</setting>
-		<setting id="inp_custom_country">
+		<caption id="tab_DataInpt" />
+		<setting id="inp_map_obj">
 		</setting>
 		<setting id="inp_data">
 		</setting>
@@ -64,7 +62,7 @@
 		</setting>
 		<setting id="dev_bg">
 		</setting>
-		<setting id="save_map_obj">
+		<setting id="save_plot_obj">
 		</setting>
 	</settings>
 	<!--

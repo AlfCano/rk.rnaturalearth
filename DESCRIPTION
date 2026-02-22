@@ -1,16 +1,16 @@
 Package: rk.rnaturalearth
 Type: Package
-Title: An RKWard wrapper for 'rnaturalearth'. Includes tools to
-        visualize Choropleth maps, extract region names, and add
-        spatial elements (North Arrow, Scale).
-Version: 0.0.1
-Date: 2026-02-20
+Title: An RKWard wrapper for 'rnaturalearth'. Features a modular
+        workflow: Download -> Process -> Plot (Continuous &
+        Categorical).
+Version: 0.1.3
+Date: 2026-02-21
 Author: Alfonso Cano
 Maintainer: Alfonso Cano <alfonso.cano@correo.buap.mx>
 Enhances: rkward
-Description: An RKWard wrapper for 'rnaturalearth'. Includes tools to
-        visualize Choropleth maps, extract region names, and add
-        spatial elements (North Arrow, Scale).
+Description: An RKWard wrapper for 'rnaturalearth'. Features a modular
+        workflow: Download -> Process -> Plot (Continuous &
+        Categorical).
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes

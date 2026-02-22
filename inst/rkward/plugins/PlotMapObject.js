@@ -10,10 +10,6 @@ function preview(){
 function preprocess(is_preview){
 	// add requirements etc. here
 	if(is_preview) {
-		echo("if(!base::require(rnaturalearth)){stop(" + i18n("Preview not available, because package rnaturalearth is not installed or cannot be loaded.") + ")}\n");
-	} else {
-		echo("require(rnaturalearth)\n");
-	}	if(is_preview) {
 		echo("if(!base::require(sf)){stop(" + i18n("Preview not available, because package sf is not installed or cannot be loaded.") + ")}\n");
 	} else {
 		echo("require(sf)\n");
@@ -52,18 +48,15 @@ function calculate(is_preview){
         return raw.split("$").pop();
     }
   
+    var map_obj = getValue("inp_map_obj");
     var df = getValue("inp_data"); var region_col = getCol("inp_region_col"); var val_col = getCol("inp_value_col");
-    var country = getValue("drp_country"); var custom = getValue("inp_custom_country");
-    if (custom && custom !== "") { country = custom; }
     var pal = getValue("drp_palette"); var tit = getValue("map_title"); var cap = getValue("map_caption");
     var show_lbl = getValue("chk_labels"); var lbl_size = getValue("lbl_size"); var lbl_ovr = (getValue("chk_overlap") == "1") ? "TRUE" : "FALSE";
     var show_north = getValue("chk_north"); var north_pos = getValue("north_pos"); var north_sty = getValue("north_style");
     var show_scale = getValue("chk_scale"); var scale_pos = getValue("scale_pos");
 
     echo("user_data <- " + df + "\n");
-    echo("map_sf <- rnaturalearth::ne_states(country = \"" + country + "\", returnclass = \"sf\")\n");
-    echo("if(nrow(map_sf) == 0) stop(\"Could not find map data for country: " + country + ". Check spelling (must be in English).\")\n");
-    echo("plot_data <- map_sf %>% dplyr::left_join(user_data, by = c(\"name\" = \"" + region_col + "\"))\n");
+    echo("plot_data <- " + map_obj + " %>% dplyr::left_join(user_data, by = c(\"name\" = \"" + region_col + "\"))\n");
 
     echo("p <- ggplot2::ggplot(plot_data) +\n");
     echo("  ggplot2::geom_sf(ggplot2::aes(fill = .data[[\"" + val_col + "\"]]), color = \"white\", size = 0.2) +\n");
@@ -91,31 +84,23 @@ function printout(is_preview){
 
 	// printout the results
 	if(!is_preview) {
-		new Header(i18n("Choropleth Map results")).print();	
+		new Header(i18n("Plot Map Object results")).print();	
 	}
     if (is_preview) { echo("print(p)\n"); } else {
         var dev_type = getValue("device_type"); var w = getValue("dev_width"); var h = getValue("dev_height"); var res = getValue("dev_res"); var bg = getValue("dev_bg");
         echo("rk.graph.on(device.type=\"" + dev_type + "\", width=" + w + ", height=" + h + ", res=" + res + ", bg=\"" + bg + "\")\n");
         echo("print(p)\n"); echo("rk.graph.off()\n");
-
-        // Manual assignment is removed because rk.XML.saveobj with initial="p" handles the mapping correctly.
-        if (getValue("save_map_obj.active")) {
-            var target = getValue("save_map_obj");
-            if (target != "p") {
-                echo(".GlobalEnv$" + target + " <- p\n");
-            }
-        }
     }
   
 	if(!is_preview) {
 		//// save result object
 		// read in saveobject variables
-		var saveMapObj = getValue("save_map_obj");
-		var saveMapObjActive = getValue("save_map_obj.active");
-		var saveMapObjParent = getValue("save_map_obj.parent");
+		var savePlotObj = getValue("save_plot_obj");
+		var savePlotObjActive = getValue("save_plot_obj.active");
+		var savePlotObjParent = getValue("save_plot_obj.parent");
 		// assign object to chosen environment
-		if(saveMapObjActive) {
-			echo(".GlobalEnv$" + saveMapObj + " <- p\n");
+		if(savePlotObjActive) {
+			echo(".GlobalEnv$" + savePlotObj + " <- p\n");
 		}	
 	}
 

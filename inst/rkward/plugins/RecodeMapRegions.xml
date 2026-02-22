@@ -1,0 +1,41 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="RecodeMapRegions.js" />
+	<help file="RecodeMapRegions.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Recode Map Regions">
+		<row id="row_vUUIIMODDF">
+			<varselector id="v_sel_rec" />
+			<column id="clm_tUUIIMODDF">
+				<text id="txt_Updtmpnm">
+					Update map names.
+				</text>
+				<frame label="Inputs" id="frm_Inputs">
+					<varslot id="inp_map_obj" label="Map Object (sf)" source="v_sel_rec" classes="sf" required="true" />
+					<varslot id="inp_dict_df" label="Dictionary Data Frame" source="v_sel_rec" classes="data.frame" required="true" />
+				</frame>
+				<frame label="Correspondence" id="frm_Crrspndn">
+					<varslot id="inp_col_old" label="Old Name Column" source="v_sel_rec" required="true" />
+					<varslot id="inp_col_new" label="New Name Column" source="v_sel_rec" required="true" />
+				</frame>
+				<stretch />
+				<saveobject label="Save Modified Map As" checkable="true" checked="true" initial="modified_map" id="save_mod_map" />
+			</column>
+		</row>
+	</dialog>
+</document>

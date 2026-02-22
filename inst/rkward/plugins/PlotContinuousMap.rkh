@@ -14,10 +14,8 @@
 		</section>
 	-->
 	<settings>
-		<caption id="tab_DataLctn" />
-		<setting id="drp_country">
-		</setting>
-		<setting id="inp_custom_country">
+		<caption id="tab_DataInpt" />
+		<setting id="inp_map_obj">
 		</setting>
 		<setting id="inp_data">
 		</setting>
@@ -28,11 +26,20 @@
 		<caption id="tab_Appearnc" />
 		<setting id="drp_palette">
 		</setting>
+		<setting id="drp_border_col">
+		</setting>
+		<caption id="frm_LgndSttn" />
+		<setting id="leg_title">
+		</setting>
+		<setting id="leg_pos">
+		</setting>
 		<setting id="map_title">
 		</setting>
 		<setting id="map_caption">
 		</setting>
 		<caption id="tab_MpElmnts" />
+		<setting id="drp_grid_mode">
+		</setting>
 		<caption id="frm_TextLbls" />
 		<setting id="chk_labels">
 		</setting>
@@ -64,7 +71,7 @@
 		</setting>
 		<setting id="dev_bg">
 		</setting>
-		<setting id="save_map_obj">
+		<setting id="save_plot_obj">
 		</setting>
 	</settings>
 	<!--

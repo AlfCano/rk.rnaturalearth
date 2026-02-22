@@ -1,0 +1,46 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="ChoroplethMapToolkit.js" />
+	<help file="ChoroplethMapToolkit.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Download Map Object">
+		<column id="clm_tDNEDNESCM">
+			<text id="txt_DwnldsNE">
+				Downloads administrative boundaries (states/provinces) from Natural Earth and saves them as an 'sf' object.
+			</text>
+			<dropdown id="down_country" label="Select Country">
+				<option label="Mexico" value="Mexico" checked="true" />
+				<option label="United States" value="United States of America" />
+				<option label="Canada" value="Canada" />
+				<option label="Brazil" value="Brazil" />
+				<option label="Argentina" value="Argentina" />
+				<option label="Colombia" value="Colombia" />
+				<option label="Chile" value="Chile" />
+				<option label="Peru" value="Peru" />
+				<option label="Spain" value="Spain" />
+				<option label="France" value="France" />
+				<option label="Germany" value="Germany" />
+				<option label="Italy" value="Italy" />
+				<option label="United Kingdom" value="United Kingdom" />
+			</dropdown>
+			<input label="Or type Country name" id="down_custom" />
+			<stretch />
+			<saveobject label="Save Map Object As" checkable="true" checked="true" initial="map_sf" id="save_map_obj" />
+		</column>
+	</dialog>
+</document>

@@ -4,8 +4,8 @@
 		this code was generated using the rkwarddev package.
 	perhaps don't make changes here, but in the rkwarddev script instead!
 	-->
-	<code file="ChoroplethMap.js" />
-	<help file="ChoroplethMap.rkh" />
+	<code file="PlotMapObject.js" />
+	<help file="PlotMapObject.rkh" />
 	<!--
 		<dependencies>
 		</dependencies>
@@ -18,32 +18,17 @@
 			<connect governor="!edit!.state" client="!edit!.enabled" />
 		-->
 	</logic>
-	<dialog label="Choropleth Map">
-		<row id="row_vDLDLSCMMU">
+	<dialog label="Plot Map Object">
+		<row id="row_vDIDIMODFR">
 			<varselector id="v_sel" />
-			<column id="clm_tDLDLSCMMU">
+			<column id="clm_tDIDIMODFR">
 				<tabbook>
-					<tab label="Data &amp; Location" id="tab_DataLctn">
-						<column id="clm_dSCMMUSUSA">
-							<dropdown id="drp_country" label="Select Country">
-								<option label="Mexico" value="Mexico" checked="true" />
-								<option label="United States" value="United States of America" />
-								<option label="Canada" value="Canada" />
-								<option label="Brazil" value="Brazil" />
-								<option label="Argentina" value="Argentina" />
-								<option label="Colombia" value="Colombia" />
-								<option label="Chile" value="Chile" />
-								<option label="Peru" value="Peru" />
-								<option label="Spain" value="Spain" />
-								<option label="France" value="France" />
-								<option label="Germany" value="Germany" />
-								<option label="Italy" value="Italy" />
-								<option label="United Kingdom" value="United Kingdom" />
-							</dropdown>
-							<input label="Or type Country name" id="inp_custom_country" />
+					<tab label="Data Input" id="tab_DataInpt">
+						<column id="clm_vMODFRNCDV">
+							<varslot id="inp_map_obj" label="Map Object (sf)" source="v_sel" classes="sf" required="true" />
 							<stretch />
 							<varslot id="inp_data" label="Data Frame" source="v_sel" classes="data.frame" required="true" />
-							<varslot id="inp_region_col" label="Region Name Column" source="v_sel" required="true" />
+							<varslot id="inp_region_col" label="Region Name Column (Data)" source="v_sel" required="true" />
 							<varslot id="inp_value_col" label="Value Column" source="v_sel" required="true" />
 						</column>
 					</tab>
@@ -117,7 +102,7 @@
 									</dropdown>
 								</column>
 							</frame>
-							<saveobject label="Save Map Object" checkable="true" checked="true" initial="p" id="save_map_obj" />
+							<saveobject label="Save Plot Object" checkable="true" checked="true" initial="p" id="save_plot_obj" />
 							<preview label="Preview" id="prv_Preview" />
 						</column>
 					</tab>
