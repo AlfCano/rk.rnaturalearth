@@ -29,6 +29,10 @@ function preprocess(is_preview){
 		echo("if(!base::require(ggspatial)){stop(" + i18n("Preview not available, because package ggspatial is not installed or cannot be loaded.") + ")}\n");
 	} else {
 		echo("require(ggspatial)\n");
+	}	if(is_preview) {
+		echo("if(!base::require(ggrepel)){stop(" + i18n("Preview not available, because package ggrepel is not installed or cannot be loaded.") + ")}\n");
+	} else {
+		echo("require(ggrepel)\n");
 	}
 }
 
@@ -49,46 +53,53 @@ function calculate(is_preview){
     }
   
     var map_obj = getValue("inp_map_obj");
+    var map_id = getCol("inp_map_id");
     var df = getValue("inp_data"); var region_col = getCol("inp_region_col"); var val_col = getCol("inp_value_col");
     var pal = getValue("drp_palette"); var border_col = getValue("drp_border_col");
     var tit = getValue("map_title"); var cap = getValue("map_caption");
     var leg_title = getValue("leg_title"); var leg_pos = getValue("leg_pos");
-    
+
     var grid_mode = getValue("drp_grid_mode");
     var show_lbl = getValue("chk_labels"); var lbl_size = getValue("lbl_size"); var lbl_ovr = (getValue("chk_overlap") == "1") ? "TRUE" : "FALSE";
+    var use_repel = getValue("chk_repel"); var max_ov = getValue("max_overlaps");
+
     var show_north = getValue("chk_north"); var north_pos = getValue("north_pos"); var north_sty = getValue("north_style");
     var show_scale = getValue("chk_scale"); var scale_pos = getValue("scale_pos");
 
     if (leg_title == "") { leg_title = val_col; }
 
     echo("user_data <- " + df + "\n");
-    echo("plot_data <- " + map_obj + " %>% dplyr::left_join(user_data, by = c(\"name\" = \"" + region_col + "\"))\n");
+    echo("plot_data <- " + map_obj + " %>% dplyr::left_join(user_data, by = c(\"" + map_id + "\" = \"" + region_col + "\"))\n");
 
     echo("p <- ggplot2::ggplot(plot_data) +\n");
     echo("  ggplot2::geom_sf(ggplot2::aes(fill = .data[[\"" + val_col + "\"]]), color = \"" + border_col + "\", size = 0.2) +\n");
     echo("  ggplot2::scale_fill_viridis_c(option = \"" + pal + "\", na.value = \"gray90\", name = \"" + leg_title + "\")\n");
-    
-    // Grid Logic
+
     if (grid_mode == "void") {
         echo("p <- p + ggplot2::theme_void()\n");
     } else if (grid_mode == "graticule") {
         echo("p <- p + ggplot2::theme_light() + ggplot2::coord_sf(datum = sf::st_crs(4326))\n");
     } else {
-        // Dotted, No Labels
         echo("p <- p + ggplot2::theme_void() + ggplot2::coord_sf(datum = sf::st_crs(4326)) + ggplot2::theme(panel.grid.major = ggplot2::element_line(color = \"gray80\", linetype = \"dotted\"))\n");
     }
-    
+
     echo("p <- p + ggplot2::theme(legend.position = \"" + leg_pos + "\")\n");
-    
-    if (show_lbl == "1") { echo("p <- p + ggplot2::geom_sf_text(ggplot2::aes(label = name), size = " + lbl_size + ", check_overlap = !" + lbl_ovr + ")\n"); }
-    
+
+    if (show_lbl == "1") {
+        if (use_repel == "1") {
+             echo("p <- p + ggrepel::geom_text_repel(ggplot2::aes(label = .data[[\"" + map_id + "\"]], geometry = geometry), stat = \"sf_coordinates\", size = " + lbl_size + ", min.segment.length = 0, box.padding = 0.5, max.overlaps = " + max_ov + ")\n");
+        } else {
+             echo("p <- p + ggplot2::geom_sf_text(ggplot2::aes(label = .data[[\"" + map_id + "\"]]), size = " + lbl_size + ", check_overlap = !" + lbl_ovr + ")\n");
+        }
+    }
+
     if (show_north == "1") {
         var style_code = "ggspatial::north_arrow_fancy_orienteering()";
         if (north_sty == "minimal") style_code = "ggspatial::north_arrow_minimal()";
         if (north_sty == "default") style_code = "ggspatial::north_arrow_orienteering()";
         echo("p <- p + ggspatial::annotation_north_arrow(location = \"" + north_pos + "\", which_north = \"true\", style = " + style_code + ")\n");
     }
-    
+
     if (show_scale == "1") { echo("p <- p + ggspatial::annotation_scale(location = \"" + scale_pos + "\", width_hint = 0.5)\n"); }
     if (tit) echo("p <- p + ggplot2::labs(title = \"" + tit + "\")\n");
     if (cap) echo("p <- p + ggplot2::labs(caption = \"" + cap + "\")\n");

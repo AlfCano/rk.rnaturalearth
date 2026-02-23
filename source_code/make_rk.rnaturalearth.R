@@ -6,7 +6,7 @@ local({
   rkwarddev.required("0.08-1")
 
   plugin_name <- "rk.rnaturalearth"
-  plugin_ver <- "0.1.3" # Version bump: Added Dotted Grid (No Labels) style
+  plugin_ver <- "0.1.4" # FROZEN VERSION (UI Layout adjustments)
 
   package_about <- rk.XML.about(
     name = plugin_name,
@@ -86,11 +86,8 @@ local({
   drp_palette <- rk.XML.dropdown(label = "Color Palette", id.name = "drp_palette", options = list("Viridis (Default)"=list(val="D",chk=TRUE),"Magma"=list(val="A"),"Inferno"=list(val="B"),"Plasma"=list(val="C"),"Cividis"=list(val="E")))
 
   drp_border_col <- rk.XML.dropdown(label = "Polygon Border Color", id.name = "drp_border_col", options = list(
-      "White"=list(val="white", chk=TRUE),
-      "Black"=list(val="black"),
-      "Dark Gray"=list(val="gray40"),
-      "Light Gray"=list(val="gray80"),
-      "None"=list(val="NA")
+      "White"=list(val="white", chk=TRUE), "Black"=list(val="black"),
+      "Dark Gray"=list(val="gray40"), "Light Gray"=list(val="gray80"), "None"=list(val="NA")
   ))
 
   inp_title <- rk.XML.input(label = "Map Title", id.name = "map_title")
@@ -98,37 +95,59 @@ local({
 
   inp_leg_title <- rk.XML.input(label = "Legend Title (Leave empty for variable name)", id.name = "leg_title")
   drp_leg_pos <- rk.XML.dropdown(label = "Legend Position", id.name = "leg_pos", options = list(
-      "Right"=list(val="right", chk=TRUE),
-      "Left"=list(val="left"),
-      "Top"=list(val="top"),
-      "Bottom"=list(val="bottom"),
-      "None"=list(val="none")
+      "Right"=list(val="right", chk=TRUE), "Left"=list(val="left"), "Top"=list(val="top"), "Bottom"=list(val="bottom"), "None"=list(val="none")
   ))
   frame_legend <- rk.XML.frame(label = "Legend Settings", inp_leg_title, drp_leg_pos)
 
   # --- Map Elements Tab Elements ---
-  chk_labels <- rk.XML.cbox(label = "Show Region Labels", value = "1", id.name = "chk_labels")
-  inp_lbl_size <- rk.XML.spinbox(label = "Label Size", min = 1, max = 10, initial = 3, id.name = "lbl_size")
-  chk_lbl_overlap <- rk.XML.cbox(label = "Allow Overlap", value = "1", chk = FALSE, id.name = "chk_overlap")
-  frame_labels <- rk.XML.frame(label="Text Labels", rk.XML.row(chk_labels, inp_lbl_size, chk_lbl_overlap))
 
-  # UPDATED: Grid Style Dropdown with 3 options
+  # LABELS & GGREPEL (Refactored Layout)
+  chk_labels <- rk.XML.cbox(label = "Show Region Labels", value = "1", id.name = "chk_labels")
+  chk_lbl_overlap <- rk.XML.cbox(label = "Allow Overlap (Standard only)", value = "1", chk = FALSE, id.name = "chk_overlap")
+  chk_use_repel <- rk.XML.cbox(label = "Use ggrepel (Smart Positioning)", value = "1", chk = FALSE, id.name = "chk_repel")
+
+  inp_lbl_size <- rk.XML.spinbox(label = "Label Size", min = 1, max = 10, initial = 3, id.name = "lbl_size")
+  inp_max_ov <- rk.XML.spinbox(label = "Max Overlaps (ggrepel)", min = 0, max = 9999, initial = 15, id.name = "max_overlaps")
+
+  # Layout: Two columns to save vertical space and reduce width
+  frame_labels <- rk.XML.frame(label="Text Labels",
+      rk.XML.row(
+          rk.XML.col(chk_labels, chk_lbl_overlap, chk_use_repel),
+          rk.XML.col(inp_lbl_size, inp_max_ov)
+      )
+  )
+
   drp_grid_mode <- rk.XML.dropdown(label = "Map Style / Grid", id.name = "drp_grid_mode", options = list(
       "Clean (Void)" = list(val = "void", chk = TRUE),
       "Lat/Lon Graticules (Degrees)" = list(val = "graticule"),
       "Lat/Lon Graticules (Dotted, No Labels)" = list(val = "graticule_clean")
   ))
 
+  # NORTH ARROW (Refactored Layout)
   chk_north <- rk.XML.cbox(label = "North Arrow", value = "1", id.name = "chk_north")
   drp_north_pos <- rk.XML.dropdown(label = "Position", id.name = "north_pos", options = list("Top Right"=list(val="tr",chk=TRUE), "Top Left"=list(val="tl"), "Bottom Right"=list(val="br"), "Bottom Left"=list(val="bl")))
   drp_north_style <- rk.XML.dropdown(label = "Style", id.name = "north_style", options = list("Default"=list(val="default"), "Fancy"=list(val="fancy",chk=TRUE), "Minimal"=list(val="minimal")))
-  frame_north <- rk.XML.frame(label="North Arrow", rk.XML.row(chk_north, drp_north_pos, drp_north_style))
 
+  # Layout: Checkbox on top, dropdowns below
+  frame_north <- rk.XML.frame(label="North Arrow",
+      rk.XML.col(
+          chk_north,
+          rk.XML.row(drp_north_pos, drp_north_style)
+      )
+  )
+
+  # SCALE BAR
   chk_scale <- rk.XML.cbox(label = "Scale Bar", value = "1", id.name = "chk_scale")
   drp_scale_pos <- rk.XML.dropdown(label = "Position", id.name = "scale_pos", options = list("Bottom Left"=list(val="bl",chk=TRUE), "Bottom Right"=list(val="br"), "Top Left"=list(val="tl"), "Top Right"=list(val="tr")))
-  frame_scale <- rk.XML.frame(label="Scale Bar", rk.XML.row(chk_scale, drp_scale_pos))
 
-  # Output / Export Tab
+  # Layout: Checkbox on top (Consistent with North Arrow)
+  frame_scale <- rk.XML.frame(label="Scale Bar",
+      rk.XML.col(
+          chk_scale,
+          drp_scale_pos
+      )
+  )
+
   save_plot <- rk.XML.saveobj(label = "Save Plot Object", initial = "p", id.name = "save_plot_obj", chk = TRUE)
   preview_map <- rk.XML.preview(mode = "plot")
   export_frame <- rk.XML.frame(label = "Graphics Export Settings",
@@ -144,19 +163,21 @@ local({
 
   var_sel_cont <- rk.XML.varselector(id.name = "v_sel_cont")
   inp_map_cont <- rk.XML.varslot(label = "Map Object (sf)", source = "v_sel_cont", required = TRUE, id.name = "inp_map_obj", classes = "sf")
+  inp_map_id_cont <- rk.XML.varslot(label = "Map Id Column (e.g. name, NAME_1)", source = "v_sel_cont", required = TRUE, id.name = "inp_map_id")
   inp_data_cont <- rk.XML.varslot(label = "Data Frame", source = "v_sel_cont", classes = "data.frame", required = TRUE, id.name = "inp_data")
   inp_reg_cont <- rk.XML.varslot(label = "Region Name Column (Data)", source = "v_sel_cont", required = TRUE, id.name = "inp_region_col")
   inp_val_cont <- rk.XML.varslot(label = "Value Column (Numeric)", source = "v_sel_cont", required = TRUE, id.name = "inp_value_col")
   drp_pal_cont <- rk.XML.dropdown(label = "Continuous Palette", id.name = "drp_palette", options = list("Viridis (Default)"=list(val="D",chk=TRUE),"Magma"=list(val="A"),"Inferno"=list(val="B"),"Plasma"=list(val="C"),"Cividis"=list(val="E")))
 
   dialog_plotter_cont <- rk.XML.dialog(label = "Plot Continuous Map", child = rk.XML.row(var_sel_cont, rk.XML.col(rk.XML.tabbook(tabs = list(
-            "Data Input" = rk.XML.col(inp_map_cont, rk.XML.stretch(), inp_data_cont, inp_reg_cont, inp_val_cont),
+            "Data Input" = rk.XML.col(inp_map_cont, inp_map_id_cont, rk.XML.stretch(), inp_data_cont, inp_reg_cont, inp_val_cont),
             "Appearance" = rk.XML.col(drp_pal_cont, drp_border_col, frame_legend, inp_title, inp_caption),
             "Map Elements" = rk.XML.col(drp_grid_mode, frame_labels, frame_north, frame_scale),
             "Output & Export" = output_tab_content)))))
 
   js_calc_plotter_cont <- paste0(js_helpers, '
     var map_obj = getValue("inp_map_obj");
+    var map_id = getCol("inp_map_id");
     var df = getValue("inp_data"); var region_col = getCol("inp_region_col"); var val_col = getCol("inp_value_col");
     var pal = getValue("drp_palette"); var border_col = getValue("drp_border_col");
     var tit = getValue("map_title"); var cap = getValue("map_caption");
@@ -164,31 +185,37 @@ local({
 
     var grid_mode = getValue("drp_grid_mode");
     var show_lbl = getValue("chk_labels"); var lbl_size = getValue("lbl_size"); var lbl_ovr = (getValue("chk_overlap") == "1") ? "TRUE" : "FALSE";
+    var use_repel = getValue("chk_repel"); var max_ov = getValue("max_overlaps");
+
     var show_north = getValue("chk_north"); var north_pos = getValue("north_pos"); var north_sty = getValue("north_style");
     var show_scale = getValue("chk_scale"); var scale_pos = getValue("scale_pos");
 
     if (leg_title == "") { leg_title = val_col; }
 
     echo("user_data <- " + df + "\\n");
-    echo("plot_data <- " + map_obj + " %>% dplyr::left_join(user_data, by = c(\\"name\\" = \\"" + region_col + "\\"))\\n");
+    echo("plot_data <- " + map_obj + " %>% dplyr::left_join(user_data, by = c(\\"" + map_id + "\\" = \\"" + region_col + "\\"))\\n");
 
     echo("p <- ggplot2::ggplot(plot_data) +\\n");
     echo("  ggplot2::geom_sf(ggplot2::aes(fill = .data[[\\"" + val_col + "\\"]]), color = \\"" + border_col + "\\", size = 0.2) +\\n");
     echo("  ggplot2::scale_fill_viridis_c(option = \\"" + pal + "\\", na.value = \\"gray90\\", name = \\"" + leg_title + "\\")\\n");
 
-    // Grid Logic
     if (grid_mode == "void") {
         echo("p <- p + ggplot2::theme_void()\\n");
     } else if (grid_mode == "graticule") {
         echo("p <- p + ggplot2::theme_light() + ggplot2::coord_sf(datum = sf::st_crs(4326))\\n");
     } else {
-        // Dotted, No Labels
         echo("p <- p + ggplot2::theme_void() + ggplot2::coord_sf(datum = sf::st_crs(4326)) + ggplot2::theme(panel.grid.major = ggplot2::element_line(color = \\"gray80\\", linetype = \\"dotted\\"))\\n");
     }
 
     echo("p <- p + ggplot2::theme(legend.position = \\"" + leg_pos + "\\")\\n");
 
-    if (show_lbl == "1") { echo("p <- p + ggplot2::geom_sf_text(ggplot2::aes(label = name), size = " + lbl_size + ", check_overlap = !" + lbl_ovr + ")\\n"); }
+    if (show_lbl == "1") {
+        if (use_repel == "1") {
+             echo("p <- p + ggrepel::geom_text_repel(ggplot2::aes(label = .data[[\\"" + map_id + "\\"]], geometry = geometry), stat = \\"sf_coordinates\\", size = " + lbl_size + ", min.segment.length = 0, box.padding = 0.5, max.overlaps = " + max_ov + ")\\n");
+        } else {
+             echo("p <- p + ggplot2::geom_sf_text(ggplot2::aes(label = .data[[\\"" + map_id + "\\"]]), size = " + lbl_size + ", check_overlap = !" + lbl_ovr + ")\\n");
+        }
+    }
 
     if (show_north == "1") {
         var style_code = "ggspatial::north_arrow_fancy_orienteering()";
@@ -210,7 +237,7 @@ local({
     }
   '
 
-  comp_plotter_cont <- rk.plugin.component("Plot Continuous Map", xml = list(dialog = dialog_plotter_cont), js = list(require=c("sf", "ggplot2", "dplyr", "viridis", "ggspatial"), calculate=js_calc_plotter_cont, printout=js_print_plotter), hierarchy = list("plots", "Maps"))
+  comp_plotter_cont <- rk.plugin.component("Plot Continuous Map", xml = list(dialog = dialog_plotter_cont), js = list(require=c("sf", "ggplot2", "dplyr", "viridis", "ggspatial", "ggrepel"), calculate=js_calc_plotter_cont, printout=js_print_plotter), hierarchy = list("plots", "Maps"))
 
   # =========================================================================================
   # 5. COMPONENT: PLOT CATEGORICAL MAP
@@ -218,6 +245,7 @@ local({
 
   var_sel_cat <- rk.XML.varselector(id.name = "v_sel_cat")
   inp_map_cat <- rk.XML.varslot(label = "Map Object (sf)", source = "v_sel_cat", required = TRUE, id.name = "inp_map_obj", classes = "sf")
+  inp_map_id_cat <- rk.XML.varslot(label = "Map Id Column (e.g. name, NAME_1)", source = "v_sel_cat", required = TRUE, id.name = "inp_map_id")
   inp_data_cat <- rk.XML.varslot(label = "Data Frame", source = "v_sel_cat", classes = "data.frame", required = TRUE, id.name = "inp_data")
   inp_reg_cat <- rk.XML.varslot(label = "Region Name Column (Data)", source = "v_sel_cat", required = TRUE, id.name = "inp_region_col")
   inp_val_cat <- rk.XML.varslot(label = "Grouping Variable (Categorical)", source = "v_sel_cat", required = TRUE, id.name = "inp_value_col")
@@ -231,13 +259,14 @@ local({
   inp_manual_cols <- rk.XML.input(label = "Manual Colors (comma separated, e.g. 'red', '#00FF00')", id.name = "inp_manual_colors", required = FALSE)
 
   dialog_plotter_cat <- rk.XML.dialog(label = "Plot Categorical Map", child = rk.XML.row(var_sel_cat, rk.XML.col(rk.XML.tabbook(tabs = list(
-            "Data Input" = rk.XML.col(inp_map_cat, rk.XML.stretch(), inp_data_cat, inp_reg_cat, inp_val_cat),
+            "Data Input" = rk.XML.col(inp_map_cat, inp_map_id_cat, rk.XML.stretch(), inp_data_cat, inp_reg_cat, inp_val_cat),
             "Appearance" = rk.XML.col(drp_pal_cat, inp_manual_cols, drp_border_col, frame_legend, inp_title, inp_caption),
             "Map Elements" = rk.XML.col(drp_grid_mode, frame_labels, frame_north, frame_scale),
             "Output & Export" = output_tab_content)))))
 
   js_calc_plotter_cat <- paste0(js_helpers, '
     var map_obj = getValue("inp_map_obj");
+    var map_id = getCol("inp_map_id");
     var df = getValue("inp_data"); var region_col = getCol("inp_region_col"); var val_col = getCol("inp_value_col");
     var pal = getValue("drp_cat_palette"); var man_cols = getValue("inp_manual_colors");
     var border_col = getValue("drp_border_col");
@@ -246,14 +275,15 @@ local({
 
     var grid_mode = getValue("drp_grid_mode");
     var show_lbl = getValue("chk_labels"); var lbl_size = getValue("lbl_size"); var lbl_ovr = (getValue("chk_overlap") == "1") ? "TRUE" : "FALSE";
+    var use_repel = getValue("chk_repel"); var max_ov = getValue("max_overlaps");
+
     var show_north = getValue("chk_north"); var north_pos = getValue("north_pos"); var north_sty = getValue("north_style");
     var show_scale = getValue("chk_scale"); var scale_pos = getValue("scale_pos");
 
     if (leg_title == "") { leg_title = val_col; }
 
     echo("user_data <- " + df + "\\n");
-    echo("plot_data <- " + map_obj + " %>% dplyr::left_join(user_data, by = c(\\"name\\" = \\"" + region_col + "\\"))\\n");
-    // Ensure categorical is factor
+    echo("plot_data <- " + map_obj + " %>% dplyr::left_join(user_data, by = c(\\"" + map_id + "\\" = \\"" + region_col + "\\"))\\n");
     echo("plot_data[[\\"" + val_col + "\\"]] <- as.factor(plot_data[[\\"" + val_col + "\\"]])\\n");
 
     echo("p <- ggplot2::ggplot(plot_data) +\\n");
@@ -265,19 +295,23 @@ local({
         echo("  ggplot2::scale_fill_brewer(palette = \\"" + pal + "\\", na.value = \\"gray90\\", name = \\"" + leg_title + "\\")\\n");
     }
 
-    // Grid Logic
     if (grid_mode == "void") {
         echo("p <- p + ggplot2::theme_void()\\n");
     } else if (grid_mode == "graticule") {
         echo("p <- p + ggplot2::theme_light() + ggplot2::coord_sf(datum = sf::st_crs(4326))\\n");
     } else {
-        // Dotted, No Labels
         echo("p <- p + ggplot2::theme_void() + ggplot2::coord_sf(datum = sf::st_crs(4326)) + ggplot2::theme(panel.grid.major = ggplot2::element_line(color = \\"gray80\\", linetype = \\"dotted\\"))\\n");
     }
 
     echo("p <- p + ggplot2::theme(legend.position = \\"" + leg_pos + "\\")\\n");
 
-    if (show_lbl == "1") { echo("p <- p + ggplot2::geom_sf_text(ggplot2::aes(label = name), size = " + lbl_size + ", check_overlap = !" + lbl_ovr + ")\\n"); }
+    if (show_lbl == "1") {
+        if (use_repel == "1") {
+             echo("p <- p + ggrepel::geom_text_repel(ggplot2::aes(label = .data[[\\"" + map_id + "\\"]], geometry = geometry), stat = \\"sf_coordinates\\", size = " + lbl_size + ", min.segment.length = 0, box.padding = 0.5, max.overlaps = " + max_ov + ")\\n");
+        } else {
+             echo("p <- p + ggplot2::geom_sf_text(ggplot2::aes(label = .data[[\\"" + map_id + "\\"]]), size = " + lbl_size + ", check_overlap = !" + lbl_ovr + ")\\n");
+        }
+    }
 
     if (show_north == "1") {
         var style_code = "ggspatial::north_arrow_fancy_orienteering()";
@@ -291,7 +325,7 @@ local({
     if (cap) echo("p <- p + ggplot2::labs(caption = \\"" + cap + "\\")\\n");
   ')
 
-  comp_plotter_cat <- rk.plugin.component("Plot Categorical Map", xml = list(dialog = dialog_plotter_cat), js = list(require=c("sf", "ggplot2", "dplyr", "ggspatial", "RColorBrewer"), calculate=js_calc_plotter_cat, printout=js_print_plotter), hierarchy = list("plots", "Maps"))
+  comp_plotter_cat <- rk.plugin.component("Plot Categorical Map", xml = list(dialog = dialog_plotter_cat), js = list(require=c("sf", "ggplot2", "dplyr", "ggspatial", "RColorBrewer", "ggrepel"), calculate=js_calc_plotter_cat, printout=js_print_plotter), hierarchy = list("plots", "Maps"))
 
   # =========================================================================================
   # 6. COMPONENT: Get Map Region Names
@@ -321,9 +355,10 @@ local({
   js_calc_recode <- paste0(js_helpers, '
     var map_obj = getValue("inp_map_obj"); var dict_df = getValue("inp_dict_df"); var col_old = getCol("inp_col_old"); var col_new = getCol("inp_col_new");
     echo("modified_map <- " + map_obj + "\\n"); echo("dictionary <- " + dict_df + "\\n");
-    echo("indices <- match(modified_map$name, dictionary[[\\"" + col_old + "\\"]])\\n");
+    echo("if(\\"name\\" %in% names(modified_map)) { target_col <- \\"name\\" } else if(\\"NAME_1\\" %in% names(modified_map)) { target_col <- \\"NAME_1\\" } else { target_col <- \\"NAME_2\\" }\\n");
+    echo("indices <- match(modified_map[[target_col]], dictionary[[\\"" + col_old + "\\"]])\\n");
     echo("valid_matches <- !is.na(indices)\\n");
-    echo("modified_map$name[valid_matches] <- as.character(dictionary[[\\"" + col_new + "\\"]][indices[valid_matches]])\\n");
+    echo("modified_map[[target_col]][valid_matches] <- as.character(dictionary[[\\"" + col_new + "\\"]][indices[valid_matches]])\\n");
   ')
   js_print_recode <- 'echo("rk.header(\\"Map Object Recoded\\")\\n");'
   comp_recode <- rk.plugin.component("Recode Map Regions", xml = list(dialog = dialog_recode), js = list(require=c("sf", "dplyr"), calculate=js_calc_recode, printout=js_print_recode), hierarchy = list("plots", "Maps"))
@@ -368,5 +403,5 @@ local({
     load = TRUE, overwrite = TRUE, show = FALSE
   )
 
-  cat("\nPlugin 'rk.rnaturalearth' (v0.1.3) generated successfully.\n")
+  cat("\nPlugin 'rk.rnaturalearth' (v0.1.4) generated successfully.\n")
 })

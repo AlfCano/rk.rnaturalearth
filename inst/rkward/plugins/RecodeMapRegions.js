@@ -26,9 +26,10 @@ function calculate(is_preview){
   
     var map_obj = getValue("inp_map_obj"); var dict_df = getValue("inp_dict_df"); var col_old = getCol("inp_col_old"); var col_new = getCol("inp_col_new");
     echo("modified_map <- " + map_obj + "\n"); echo("dictionary <- " + dict_df + "\n");
-    echo("indices <- match(modified_map$name, dictionary[[\"" + col_old + "\"]])\n");
+    echo("if(\"name\" %in% names(modified_map)) { target_col <- \"name\" } else if(\"NAME_1\" %in% names(modified_map)) { target_col <- \"NAME_1\" } else { target_col <- \"NAME_2\" }\n");
+    echo("indices <- match(modified_map[[target_col]], dictionary[[\"" + col_old + "\"]])\n");
     echo("valid_matches <- !is.na(indices)\n");
-    echo("modified_map$name[valid_matches] <- as.character(dictionary[[\"" + col_new + "\"]][indices[valid_matches]])\n");
+    echo("modified_map[[target_col]][valid_matches] <- as.character(dictionary[[\"" + col_new + "\"]][indices[valid_matches]])\n");
   
 }
 

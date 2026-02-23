@@ -1,6 +1,6 @@
 # rk.rnaturalearth: Easy Choropleth Maps for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.1.3-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.1.4-blue.svg)
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 ![RKWard](https://img.shields.io/badge/Platform-RKWard-green)
 [![R Linter](https://github.com/AlfCano/rk.rnaturalearth/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.rnaturalearth/actions/workflows/lintr.yml)
@@ -18,7 +18,7 @@ This plugin creates a professional, modular workflow for spatial analysis: **Dow
 
 ### 2. Advanced Visualization Tools
 *   **Continuous Maps:** Plot numeric variables (e.g., Population, Income) using color-blind friendly **Viridis** palettes.
-*   **Categorical Maps:** **(New in v0.1.x)** Plot discrete groups (e.g., "North vs South", "Electoral Districts") using **RColorBrewer** palettes or manual colors.
+*   **Categorical Maps:** Plot discrete groups (e.g., "North vs South", "Electoral Districts") using **RColorBrewer** palettes or manual colors.
 *   **Deep Styling Control:**
     *   **Grids:** Choose between Clean (Void), Standard Graticules, or **Dotted Graticules (No Labels)** for a minimalist look.
     *   **Borders:** Customize polygon outline colors (White, Black, Gray, etc.).
@@ -26,10 +26,13 @@ This plugin creates a professional, modular workflow for spatial analysis: **Dow
     
     <img src="screenshots/categorical_map.png" alt="Categorical Map Example" width="100%">
 
-### 3. Professional Cartography Elements (`ggspatial`)
+### 3. Professional Cartography Elements (`ggspatial` & `ggrepel`)
+*   **Smart Labeling (New in v0.1.4):**
+    *   **Standard Mode:** Fast labeling with collision detection (`check_overlap`).
+    *   **ggrepel Mode:** Uses physics-based positioning to push labels away from each other and the centroids, adding connector lines where necessary.
+    *   **Crowd Control:** Adjustable `Max Overlaps` setting to force labels to appear even in dense areas (e.g., small states in the Northeast USA).
 *   **North Arrows:** Add "N" arrows with multiple styles (Classic, Fancy, Minimal).
 *   **Scale Bars:** Automatically calculated scale bars to provide spatial context.
-*   **Smart Labeling:** Add region names with collision detection (`check_overlap`) to prevent cluttered text.
 
 ### 4. Data Helpers
 *   **Projection Transformer:** Convert maps from degrees (WGS84) to planar projections (e.g., Web Mercator, Mexico ITRF2008) to fix scale bar warnings and improve geometric accuracy.
@@ -150,6 +153,7 @@ This plugin relies on the following R packages:
 *   `sf` (Simple Features for spatial handling)
 *   `ggplot2` (Plotting engine)
 *   `ggspatial` (North arrows and scales)
+*   `ggrepel` (Smart label positioning)
 *   `viridis` (Color blindness-friendly palettes)
 *   `RColorBrewer` (Categorical palettes)
 *   `dplyr` (Data manipulation)

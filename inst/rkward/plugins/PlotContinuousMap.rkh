@@ -17,6 +17,8 @@
 		<caption id="tab_DataInpt" />
 		<setting id="inp_map_obj">
 		</setting>
+		<setting id="inp_map_id">
+		</setting>
 		<setting id="inp_data">
 		</setting>
 		<setting id="inp_region_col">
@@ -43,9 +45,13 @@
 		<caption id="frm_TextLbls" />
 		<setting id="chk_labels">
 		</setting>
+		<setting id="chk_overlap">
+		</setting>
+		<setting id="chk_repel">
+		</setting>
 		<setting id="lbl_size">
 		</setting>
-		<setting id="chk_overlap">
+		<setting id="max_overlaps">
 		</setting>
 		<caption id="frm_NrthArrw" />
 		<setting id="chk_north">

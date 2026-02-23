@@ -19,13 +19,14 @@
 		-->
 	</logic>
 	<dialog label="Plot Categorical Map">
-		<row id="row_vDIDIMODFR">
+		<row id="row_vDIDIMOMIC">
 			<varselector id="v_sel_cat" />
-			<column id="clm_tDIDIMODFR">
+			<column id="clm_tDIDIMOMIC">
 				<tabbook>
 					<tab label="Data Input" id="tab_DataInpt">
-						<column id="clm_vMODFRNCDG">
+						<column id="clm_vMOMICNAME">
 							<varslot id="inp_map_obj" label="Map Object (sf)" source="v_sel_cat" classes="sf" required="true" />
+							<varslot id="inp_map_id" label="Map Id Column (e.g. name, NAME_1)" source="v_sel_cat" required="true" />
 							<stretch />
 							<varslot id="inp_data" label="Data Frame" source="v_sel_cat" classes="data.frame" required="true" />
 							<varslot id="inp_region_col" label="Region Name Column (Data)" source="v_sel_cat" required="true" />
@@ -75,30 +76,38 @@
 								<option label="Lat/Lon Graticules (Dotted, No Labels)" value="graticule_clean" />
 							</dropdown>
 							<frame label="Text Labels" id="frm_TextLbls">
-								<row id="row_cSRL1LS311">
-									<checkbox id="chk_labels" label="Show Region Labels" value="1" />
-									<spinbox label="Label Size" id="lbl_size" initial="3" min="1" max="10" />
-									<checkbox id="chk_overlap" label="Allow Overlap" value="1" />
+								<row id="row_cSRL1AOS1U">
+									<column id="clm_cSRL1AOS1U">
+										<checkbox id="chk_labels" label="Show Region Labels" value="1" />
+										<checkbox id="chk_overlap" label="Allow Overlap (Standard only)" value="1" />
+										<checkbox id="chk_repel" label="Use ggrepel (Smart Positioning)" value="1" />
+									</column>
+									<column id="clm_sLS3110MO1">
+										<spinbox label="Label Size" id="lbl_size" initial="3" min="1" max="10" />
+										<spinbox label="Max Overlaps (ggrepel)" id="max_overlaps" initial="15" min="0" max="9999" />
+									</column>
 								</row>
 							</frame>
 							<frame label="North Arrow" id="frm_NrthArrw">
-								<row id="row_cNA1PTRTLB">
+								<column id="clm_cNA1PTRTLB">
 									<checkbox id="chk_north" label="North Arrow" value="1" />
-									<dropdown id="north_pos" label="Position">
-										<option label="Top Right" value="tr" checked="true" />
-										<option label="Top Left" value="tl" />
-										<option label="Bottom Right" value="br" />
-										<option label="Bottom Left" value="bl" />
-									</dropdown>
-									<dropdown id="north_style" label="Style">
-										<option label="Default" value="default" />
-										<option label="Fancy" value="fancy" checked="true" />
-										<option label="Minimal" value="minimal" />
-									</dropdown>
-								</row>
+									<row id="row_dPTRTLBRBL">
+										<dropdown id="north_pos" label="Position">
+											<option label="Top Right" value="tr" checked="true" />
+											<option label="Top Left" value="tl" />
+											<option label="Bottom Right" value="br" />
+											<option label="Bottom Left" value="bl" />
+										</dropdown>
+										<dropdown id="north_style" label="Style">
+											<option label="Default" value="default" />
+											<option label="Fancy" value="fancy" checked="true" />
+											<option label="Minimal" value="minimal" />
+										</dropdown>
+									</row>
+								</column>
 							</frame>
 							<frame label="Scale Bar" id="frm_ScaleBar">
-								<row id="row_cSB1PBLBRT">
+								<column id="clm_cSB1PBLBRT">
 									<checkbox id="chk_scale" label="Scale Bar" value="1" />
 									<dropdown id="scale_pos" label="Position">
 										<option label="Bottom Left" value="bl" checked="true" />
@@ -106,7 +115,7 @@
 										<option label="Top Left" value="tl" />
 										<option label="Top Right" value="tr" />
 									</dropdown>
-								</row>
+								</column>
 							</frame>
 						</column>
 					</tab>
