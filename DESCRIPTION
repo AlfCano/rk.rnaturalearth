@@ -3,8 +3,8 @@ Type: Package
 Title: An RKWard wrapper for 'rnaturalearth'. Features a modular
         workflow: Download -> Process -> Plot (Continuous &
         Categorical).
-Version: 0.1.4
-Date: 2026-02-22
+Version: 0.1.5
+Date: 2026-02-25
 Author: Alfonso Cano
 Maintainer: Alfonso Cano <alfonso.cano@correo.buap.mx>
 Enhances: rkward

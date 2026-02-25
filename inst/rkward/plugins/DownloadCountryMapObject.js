@@ -24,7 +24,7 @@ function calculate(is_preview){
 
 function printout(is_preview){
 	// printout the results
-	new Header(i18n("Download Map Object results")).print();
+	new Header(i18n("Download Country Map Object results")).print();
 echo("rk.header(\"Map Download Successful\")\n");
 	//// save result object
 	// read in saveobject variables

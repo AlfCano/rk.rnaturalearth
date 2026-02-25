@@ -1,6 +1,6 @@
 # rk.rnaturalearth: Easy Choropleth Maps for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.1.4-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.1.5-blue.svg)
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 ![RKWard](https://img.shields.io/badge/Platform-RKWard-green)
 [![R Linter](https://github.com/AlfCano/rk.rnaturalearth/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.rnaturalearth/actions/workflows/lintr.yml)
@@ -13,7 +13,7 @@ This plugin creates a professional, modular workflow for spatial analysis: **Dow
 ## 🚀 Features
 
 ### 1. Modular Workflow
-*   **Downloader Component:** Fetch administrative boundaries (states/provinces) automatically via `rnaturalearth` and save them as `sf` objects in your workspace.
+*   **Country Downloader Component:** Fetch administrative boundaries (states/provinces) automatically via `rnaturalearth` and save them as `sf` objects in your workspace.
 *   **Separation of Concerns:** Download the map once, then reuse the object for multiple plots or data joins without re-downloading.
 
 ### 2. Advanced Visualization Tools
@@ -74,7 +74,7 @@ Once installed, the tools are organized under:
 
 **`Plots` -> `Maps`**
 
-1.  **Download Map Object:** Start here to get the shapefile.
+1.  **Download -> Download Country Map Object:** Start here to get the shapefile.
 2.  **Plot Continuous Map:** For numeric heatmaps.
 3.  **Plot Categorical Map:** For grouping/regions.
 4.  **Get Map Names:** To check spelling.
@@ -87,7 +87,7 @@ Once installed, the tools are organized under:
 **Scenario:** Visualizing random "Satisfaction Scores" for Mexico.
 
 **Step 1: Download Map**
-*   Open **Download Map Object**.
+*   Open **Download Country Map Object**.
 *   Select **Mexico**.
 *   Save as: `map_mx`.
 

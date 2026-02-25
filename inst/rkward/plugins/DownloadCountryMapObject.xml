@@ -4,8 +4,8 @@
 		this code was generated using the rkwarddev package.
 	perhaps don't make changes here, but in the rkwarddev script instead!
 	-->
-	<code file="DownloadMapObject.js" />
-	<help file="DownloadMapObject.rkh" />
+	<code file="DownloadCountryMapObject.js" />
+	<help file="DownloadCountryMapObject.rkh" />
 	<!--
 		<dependencies>
 		</dependencies>
@@ -18,7 +18,7 @@
 			<connect governor="!edit!.state" client="!edit!.enabled" />
 		-->
 	</logic>
-	<dialog label="Download Map Object">
+	<dialog label="Download Country Map Object">
 		<column id="clm_tDNEDNESCM">
 			<text id="txt_DwnldsNE">
 				Downloads administrative boundaries (states/provinces) from Natural Earth and saves them as an 'sf' object.

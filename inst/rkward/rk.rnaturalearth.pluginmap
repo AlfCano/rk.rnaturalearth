@@ -3,9 +3,9 @@
 >
 <document
 	base_prefix=""
-	namespace="DownloadMapObject"
-	id="DownloadMapObject_rkward"
-	po_id="DownloadMapObject_rkward"
+	namespace="DownloadCountryMapObject"
+	id="DownloadCountryMapObject_rkward"
+	po_id="DownloadCountryMapObject_rkward"
 	priority="medium"
 >
 	<!--
@@ -20,8 +20,8 @@
 		name="rk.rnaturalearth"
 		shortinfo="An RKWard wrapper for 'rnaturalearth'. Features a modular workflow: Download -&gt; Process -&gt; Plot (Continuous &amp; Categorical)."
 		longinfo="An RKWard wrapper for 'rnaturalearth'. Features a modular workflow: Download -&gt; Process -&gt; Plot (Continuous &amp; Categorical)."
-		version="0.1.4"
-		releasedate="2026-02-22"
+		version="0.1.5"
+		releasedate="2026-02-25"
 		url="https://github.com/AlfCano/rk.rnaturalearth"
 		license="GPL (&gt;= 3)"
 	>
@@ -40,45 +40,45 @@
 	/>
 	<components>
 		<component
-			id="cmp_DownloadMpObjctPltCntnsMp"
+			id="cmp_DwnldCntryMpObjctPltCntnM"
 			label="Plot Continuous Map"
 			type="standard"
 			file="plugins/PlotContinuousMap.xml"
 		>
 		</component>
 		<component
-			id="cmp_DownlodMpObjctPltCtgrclMp"
+			id="cmp_DwnldCntryMpObjctPltCtgrM"
 			label="Plot Categorical Map"
 			type="standard"
 			file="plugins/PlotCategoricalMap.xml"
 		>
 		</component>
 		<component
-			id="cmp_DownloadMapObjectGetMpNms"
+			id="cmp_DownldCntryMpObjctGtMpNms"
 			label="Get Map Names"
 			type="standard"
 			file="plugins/GetMapNames.xml"
 		>
 		</component>
 		<component
-			id="cmp_DownloadMapObjctRcdMpRgns"
+			id="cmp_DwnldCntryMpObjctRcdMpRgn"
 			label="Recode Map Regions"
 			type="standard"
 			file="plugins/RecodeMapRegions.xml"
 		>
 		</component>
 		<component
-			id="cmp_DwnldMpObjctTrnsfrmMpPrjc"
+			id="cmp_DwnldCntryMpObjctTrnsfrMP"
 			label="Transform Map Projection"
 			type="standard"
 			file="plugins/TransformMapProjection.xml"
 		>
 		</component>
 		<component
-			id="cmp_DownldMpObjctDwnldMpObjct"
-			label="Download Map Object"
+			id="cmp_DwnldCntryMpObjctDwnldCMO"
+			label="Download Country Map Object"
 			type="standard"
-			file="plugins/DownloadMapObject.xml"
+			file="plugins/DownloadCountryMapObject.xml"
 		>
 		</component>
 	</components>
@@ -92,7 +92,7 @@
 				label="Maps"
 			>
 				<entry
-					component="cmp_DownloadMpObjctPltCntnsMp"
+					component="cmp_DwnldCntryMpObjctPltCntnM"
 				/>
 			</menu>
 		</menu>
@@ -105,7 +105,7 @@
 				label="Maps"
 			>
 				<entry
-					component="cmp_DownlodMpObjctPltCtgrclMp"
+					component="cmp_DwnldCntryMpObjctPltCtgrM"
 				/>
 			</menu>
 		</menu>
@@ -118,7 +118,7 @@
 				label="Maps"
 			>
 				<entry
-					component="cmp_DownloadMapObjectGetMpNms"
+					component="cmp_DownldCntryMpObjctGtMpNms"
 				/>
 			</menu>
 		</menu>
@@ -131,7 +131,7 @@
 				label="Maps"
 			>
 				<entry
-					component="cmp_DownloadMapObjctRcdMpRgns"
+					component="cmp_DwnldCntryMpObjctRcdMpRgn"
 				/>
 			</menu>
 		</menu>
@@ -144,7 +144,7 @@
 				label="Maps"
 			>
 				<entry
-					component="cmp_DwnldMpObjctTrnsfrmMpPrjc"
+					component="cmp_DwnldCntryMpObjctTrnsfrMP"
 				/>
 			</menu>
 		</menu>
@@ -156,9 +156,14 @@
 				id="Maps"
 				label="Maps"
 			>
-				<entry
-					component="cmp_DownldMpObjctDwnldMpObjct"
-				/>
+				<menu
+					id="Download"
+					label="Download"
+				>
+					<entry
+						component="cmp_DwnldCntryMpObjctDwnldCMO"
+					/>
+				</menu>
 			</menu>
 		</menu>
 	</hierarchy>
